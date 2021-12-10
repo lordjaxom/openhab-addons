@@ -1,4 +1,14 @@
-# multipress Binding
+# multipress Profile
+
+Profile that translates raw button presses to (multiple) click or hold events.
+
+## Simple example
+
+Imagine having a simple thing like a home-made ESP8266 with a button attached to it that sends via MQTT the state of the button (ON or OFF). With this profile you could link that channel to an item that received the number of clicks (i.e. one, two, three or more sequences of ON, OFF events within a short period of time) or the string "HOLD" if the button was pressed and held for a specific amount of time.
+
+## Real-world example
+
+The Shelly Dimmer has the possibility to connect buttons to it to control the dimmed output directly. But that button is only capable of handling specific events, i.e. a short click turns the light on or off and a press and hold starts the dimming process. But I like to customize the dimmer control and add additional functions to the button, i.e. two short clicks turn on a different light or a press and hold turns off all lights in the room if the dimmed lamp is turned off and only starts the dimming process if the dimmed lamp is already turned on. To achieve that it is possible to detach the button from the lamp within the Shelly Dimmer, but then all button functions have to be programmed in OpenHAB. This profile takes away the need to count ON and OFF events within the rule engine.
 
 _Give some details about what this binding is meant for - a protocol, system, specific device._
 
