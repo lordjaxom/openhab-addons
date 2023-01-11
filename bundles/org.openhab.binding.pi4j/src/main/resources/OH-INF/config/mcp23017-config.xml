@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config-description:config-descriptions
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0
+		https://openhab.org/schemas/config-description-1.0.0.xsd">
+
+	<config-description uri="channel-type:pi4j:mcp23017_input_channel">
+		<parameter name="pin" type="integer" required="true">
+			<label>Pin Number</label>
+			<description>The pin number on the PCF8574 device</description>
+		</parameter>
+		<parameter name="pullMode" type="text" required="true">
+			<label>Pull-Up Mode</label>
+			<description>Internal pull-up resistor mode</description>
+			<options>
+				<option value="OFF">No Pull-Up</option>
+				<option value="PULL_UP">Pull-Up</option>
+			</options>
+			<default>OFF</default>
+		</parameter>
+		<parameter name="invert" type="boolean">
+			<label>Invert Input</label>
+			<description>Invert the value of the input pin</description>
+			<default>false</default>
+		</parameter>
+	</config-description>
+
+	<config-description uri="channel-type:pi4j:mcp23017_output_channel">
+		<parameter name="pin" type="integer" required="true">
+			<label>Pin Number</label>
+			<description>The pin number on the PCF8574 device</description>
+		</parameter>
+		<parameter name="initialState" type="text" required="true">
+			<label>Default State</label>
+			<description>The pin's initial state (ON, OFF)</description>
+			<options>
+				<option value="OFF">OFF</option>
+				<option value="ON">ON</option>
+			</options>
+			<default>OFF</default>
+		</parameter>
+		<parameter name="invert" type="boolean">
+			<label>Invert Output</label>
+			<description>Invert the value of the output pin</description>
+			<default>false</default>
+		</parameter>
+	</config-description>
+
+	<config-description uri="thing-type:pi4j:mcp23017_config">
+		<parameter name="address" type="text" required="true">
+			<label>I²C Device Address</label>
+			<description>I²C device address in hexadecimal notation</description>
+			<default>20</default>
+		</parameter>
+		<parameter name="busNumber" type="integer" required="true">
+			<label>I²C Bus Number</label>
+			<description>I²C bus number (0-6)</description>
+			<options>
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+			</options>
+			<default>1</default>
+		</parameter>
+	</config-description>
+
+</config-description:config-descriptions>

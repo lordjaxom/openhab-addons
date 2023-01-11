@@ -12,12 +12,15 @@
  */
 package org.openhab.binding.pi4j.internal;
 
-import static org.openhab.binding.pi4j.internal.Pi4JBindingConstants.*;
+import static org.openhab.binding.pi4j.internal.Pi4JBindingConstants.THING_TYPE_MCP23017;
+import static org.openhab.binding.pi4j.internal.Pi4JBindingConstants.THING_TYPE_PCF8574;
 
 import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.binding.pi4j.internal.handler.Mcp23017GpioProviderHandler;
+import org.openhab.binding.pi4j.internal.handler.Pcf8574GpioProviderHandler;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
@@ -35,7 +38,7 @@ import org.osgi.service.component.annotations.Component;
 @Component(configurationPid = "binding.pi4j", service = ThingHandlerFactory.class)
 public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
 
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_SAMPLE);
+    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_PCF8574, THING_TYPE_MCP23017);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -45,11 +48,12 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
     @Override
     protected @Nullable ThingHandler createHandler(Thing thing) {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
-
-        if (THING_TYPE_SAMPLE.equals(thingTypeUID)) {
-            return new Pi4JHandler(thing);
+        if (THING_TYPE_PCF8574.equals(thingTypeUID)) {
+            return new Pcf8574GpioProviderHandler(thing);
         }
-
+        if (THING_TYPE_MCP23017.equals(thingTypeUID)) {
+            return new Mcp23017GpioProviderHandler(thing);
+        }
         return null;
     }
 }
