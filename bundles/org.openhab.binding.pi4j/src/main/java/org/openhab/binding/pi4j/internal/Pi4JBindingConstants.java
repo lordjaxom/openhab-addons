@@ -27,8 +27,10 @@ public class Pi4JBindingConstants {
     private static final String BINDING_ID = "pi4j";
 
     // List of all Thing Type UIDs
-    public static final ThingTypeUID THING_TYPE_SAMPLE = new ThingTypeUID(BINDING_ID, "sample");
+    public static final ThingTypeUID THING_TYPE_PCF8574 = new ThingTypeUID(BINDING_ID, "pcf8574");
+    public static final ThingTypeUID THING_TYPE_MCP23017 = new ThingTypeUID(BINDING_ID, "mcp23017");
 
     // List of all Channel ids
-    public static final String CHANNEL_1 = "channel1";
+    public static final String CHANNEL_PCF8574_INPUT = "pcf8574_input";
+    public static final String CHANNEL_PCF8574_OUTPUT = "pcf8574_output";
 }
