@@ -57,6 +57,9 @@ public abstract class BaseChannelState {
         if (channelTypeUID.getId().endsWith("_analog_input")) {
             return new AnalogInputChannelState(device, channel, provider);
         }
+        if (channelTypeUID.getId().endsWith("_analog_output")) {
+            return new AnalogOutputChannelState(device, channel, provider);
+        }
         throw new IllegalStateException("Unexpected value: " + channelTypeUID.getId());
     }
 
