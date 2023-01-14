@@ -12,10 +12,16 @@
  */
 package org.openhab.binding.pi4j.internal.channel;
 
+import java.util.Optional;
+
+import com.pi4j.io.gpio.GpioProvider;
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.openhab.binding.pi4j.internal.Pi4JBindingConstants;
+import org.openhab.binding.pi4j.internal.config.ChannelConfig;
 import org.openhab.binding.pi4j.internal.handler.BaseGpioProviderHandler;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
+import org.openhab.core.types.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,27 +31,48 @@ import org.slf4j.LoggerFactory;
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public abstract class BaseChannelState<C> implements ChannelState {
+public abstract class BaseChannelState {
+
+    public static Optional<BaseChannelState> newInstance(BaseGpioProviderHandler handler, Channel channel,
+            GpioProvider gpioProvider) {
+        var channelTypeUID = channel.getChannelTypeUID();
+        if (channelTypeUID == null) {
+            LoggerFactory.getLogger(BaseChannelState.class).warn("Channel {} has no type", channel.getUID());
+            return Optional.empty();
+        }
+
+        switch (channelTypeUID.getId()) {
+            case Pi4JBindingConstants.CHANNEL_PCF8574_INPUT:
+                return Optional.of(new DigitalInputChannelState(handler, channel, gpioProvider));
+            case Pi4JBindingConstants.CHANNEL_PCF8574_OUTPUT:
+                return Optional.of(new DigitalOutputChannelState(handler, channel, gpioProvider));
+            default:
+                throw new IllegalStateException("Unexpected value: " + channelTypeUID.getId());
+        }
+    }
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected final BaseGpioProviderHandler handler;
     protected final ChannelUID channelUID;
-    protected final String name;
-    protected final C config;
+    protected final String type;
+    protected final ChannelConfig config;
 
-    public BaseChannelState(BaseGpioProviderHandler handler, Channel channel, String name, Class<C> configClass) {
+    public BaseChannelState(BaseGpioProviderHandler handler, Channel channel, String type) {
         this.handler = handler;
         this.channelUID = channel.getUID();
-        this.name = name;
+        this.type = type;
 
-        config = channel.getConfiguration().as(configClass);
+        config = channel.getConfiguration().as(ChannelConfig.class);
 
-        logger.debug("Initializing {} channel {} with config {}", name, channelUID, config);
+        logger.debug("Initializing {} channel {} with config {}", type, channelUID, config);
     }
 
-    @Override
     public ChannelUID getUID() {
         return channelUID;
     }
+
+    public abstract void dispose();
+
+    public abstract void handleCommand(Command command);
 }
