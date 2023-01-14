@@ -9,6 +9,16 @@
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
 			<description>The pin number on the PCF8574 device</description>
+			<options>
+				<option value="0">GPIO 0</option>
+				<option value="1">GPIO 1</option>
+				<option value="2">GPIO 2</option>
+				<option value="3">GPIO 3</option>
+				<option value="4">GPIO 4</option>
+				<option value="5">GPIO 5</option>
+				<option value="6">GPIO 6</option>
+				<option value="7">GPIO 7</option>
+			</options>
 		</parameter>
 		<parameter name="invert" type="boolean">
 			<label>Invert Input</label>
@@ -21,6 +31,16 @@
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
 			<description>The pin number on the PCF8574 device</description>
+			<options>
+				<option value="0">GPIO 0</option>
+				<option value="1">GPIO 1</option>
+				<option value="2">GPIO 2</option>
+				<option value="3">GPIO 3</option>
+				<option value="4">GPIO 4</option>
+				<option value="5">GPIO 5</option>
+				<option value="6">GPIO 6</option>
+				<option value="7">GPIO 7</option>
+			</options>
 		</parameter>
 		<parameter name="initialState" type="text" required="true">
 			<label>Default State</label>
