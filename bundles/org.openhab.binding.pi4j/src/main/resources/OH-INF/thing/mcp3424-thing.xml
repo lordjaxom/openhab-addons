@@ -5,7 +5,7 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 	<thing-type id="mcp3424" extensible="mcp3424_analog_input">
 		<label>MCP3424</label>
-		<description>Thing for MCP3424 I²C port expander</description>
+		<description>Thing for MCP3424 I²C device</description>
 		<config-description-ref uri="thing-type:pi4j:mcp3424_config"/>
 	</thing-type>
 	<channel-type id="mcp3424_analog_input">

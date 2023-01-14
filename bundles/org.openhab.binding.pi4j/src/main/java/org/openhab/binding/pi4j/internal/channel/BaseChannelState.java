@@ -60,6 +60,9 @@ public abstract class BaseChannelState {
         if (channelTypeUID.getId().endsWith("_analog_output")) {
             return new AnalogOutputChannelState(device, channel, provider);
         }
+        if (channelTypeUID.getId().endsWith("_pwm_output")) {
+            return new PwmOutputChannelState(device, channel, provider);
+        }
         throw new IllegalStateException("Unexpected value: " + channelTypeUID.getId());
     }
 

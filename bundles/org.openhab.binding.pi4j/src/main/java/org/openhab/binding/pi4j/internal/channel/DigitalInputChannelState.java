@@ -34,10 +34,10 @@ class DigitalInputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalInput gpioPin;
 
-    DigitalInputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider provider) {
-        super(handler, channel);
+    DigitalInputChannelState(GpioProviderDevice device, Channel channel, GpioProvider provider) {
+        super(device, channel);
 
-        gpioPin = GpioFactory.getInstance().provisionDigitalInputPin(provider, handler.getPin(config.getPin()),
+        gpioPin = GpioFactory.getInstance().provisionDigitalInputPin(provider, device.getPin(config.getPin()),
                 channel.getUID().getId(), config.getPullMode().orElse(null));
         gpioPin.addListener((GpioPinListenerDigital) event -> updateChannel());
         updateChannel();

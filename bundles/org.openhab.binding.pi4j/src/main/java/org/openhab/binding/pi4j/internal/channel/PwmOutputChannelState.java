@@ -14,32 +14,29 @@ package org.openhab.binding.pi4j.internal.channel;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
-import org.openhab.core.library.types.OnOffType;
+import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.GpioProvider;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 /**
- * The {@link DigitalOutputChannelState}.
+ * The {@link PwmOutputChannelState}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-class DigitalOutputChannelState extends BaseChannelState {
+public class PwmOutputChannelState extends BaseChannelState {
+    private final GpioPinPwmOutput gpioPin;
 
-    private final GpioPinDigitalOutput gpioPin;
+    public PwmOutputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider provider) {
+        super(handler, channel);
 
-    public DigitalOutputChannelState(GpioProviderDevice device, Channel channel, GpioProvider gpioProvider) {
-        super(device, channel);
-
-        gpioPin = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, device.getPin(config.getPin()),
-                channel.getUID().getId(), config.getInitialState().orElseThrow());
-        gpioPin.addListener((GpioPinListenerDigital) event -> updateChannel());
+        gpioPin = GpioFactory.getInstance().provisionPwmOutputPin(provider, handler.getPin(config.getPin()),
+                channel.getUID().getId(), (int) config.getDefaultValue().orElseThrow());
         updateChannel();
     }
 
@@ -52,17 +49,18 @@ class DigitalOutputChannelState extends BaseChannelState {
     public void handleCommand(Command command) {
         if (command instanceof RefreshType) {
             updateChannel();
-        } else if (command instanceof OnOffType) {
-            updateOutput((OnOffType) command);
+        }
+        if (command instanceof DecimalType) {
+            updateOutput((DecimalType) command);
         }
     }
 
     private void updateChannel() {
-        var state = (config.isInvert() ^ gpioPin.isHigh()) ? OnOffType.ON : OnOffType.OFF;
-        updateStateListener.accept(channelUID, state);
+        updateStateListener.accept(channelUID, new DecimalType(gpioPin.getPwm()));
     }
 
-    private void updateOutput(OnOffType value) {
-        gpioPin.setState(config.isInvert() ^ value == OnOffType.ON);
+    private void updateOutput(DecimalType command) {
+        gpioPin.setPwm(command.intValue());
+        updateChannel();
     }
 }
