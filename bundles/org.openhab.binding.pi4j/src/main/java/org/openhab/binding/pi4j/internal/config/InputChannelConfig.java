@@ -16,8 +16,6 @@ import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
-import com.pi4j.gpio.extension.pcf.PCF8574Pin;
-import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinPullResistance;
 
 /**
