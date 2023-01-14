@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="pi4j"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+    xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+    <thing-type id="{{ device.id }}" extensible="{{ channels | join(',', attribute="name") }}">
+        <label>{{ device.name }}</label>
+        <description>Thing for {{ device.name }} {{ device.type.name }} port expander</description>
+        <config-description-ref uri="thing-type:pi4j:{{ device.id }}_config"/>
+    </thing-type>
+{%- for channel in channels %}
+    <channel-type id="{{ channel.name }}">
+{%- if channel.type == "input" %}
+        <item-type>Contact</item-type>
+        <label>Input</label>
+        <description>An input pin for the {{ device.name }} {{ device.type.name }} device</description>
+        <state readOnly="true"/>
+{%- elif channel.type == "output" %}
+        <item-type>Switch</item-type>
+        <label>Output</label>
+        <description>An output pin for the {{ device.name }} {{ device.type.name }} device</description>
+{%- endif %}
+        <config-description-ref uri="channel-type:pi4j:{{ channel.name }}_channel"/>
+    </channel-type>
+{%- endfor %}
+</thing:thing-descriptions>
