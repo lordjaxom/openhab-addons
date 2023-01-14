@@ -14,7 +14,10 @@ package org.openhab.binding.pi4j.internal.handler;
 
 import java.io.IOException;
 
+import com.pi4j.gpio.extension.pcf.PCF8574Pin;
+import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.core.thing.Thing;
 
 import com.pi4j.gpio.extension.pcf.PCF8574GpioProvider;
@@ -35,8 +38,13 @@ public class Pcf8574GpioProviderHandler extends BaseGpioProviderHandler {
     }
 
     @Override
-    protected GpioProvider newGpioProvider(int busNumber, int address)
+    public Pin getPin(int index) {
+        return PCF8574Pin.ALL[index];
+    }
+
+    @Override
+    protected GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new PCF8574GpioProvider(busNumber, address);
+        return new PCF8574GpioProvider(config.getBusNumber(), config.getAddress());
     }
 }

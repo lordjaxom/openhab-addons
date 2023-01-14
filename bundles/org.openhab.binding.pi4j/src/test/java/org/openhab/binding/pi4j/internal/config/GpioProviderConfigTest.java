@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
 import org.openhab.core.config.core.ConfigParser;
 
 /**
- * The {@link I2CGpioProviderConfigTest}.
+ * The {@link GpioProviderConfigTest}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-class I2CGpioProviderConfigTest {
+class GpioProviderConfigTest {
 
     @Test
     void parsesCorrectly() {
-        var config = ConfigParser.configurationAs(Map.of("address", "24", "busNumber", 2), I2CGpioProviderConfig.class);
+        var config = ConfigParser.configurationAs(Map.of("address", "24", "busNumber", 2), GpioProviderConfig.class);
         assertNotNull(config);
         assertEquals(0x24, config.getAddress());
         assertEquals(2, config.getBusNumber());

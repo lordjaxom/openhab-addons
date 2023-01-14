@@ -23,6 +23,7 @@ import org.openhab.core.types.RefreshType;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.GpioProvider;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 /**
  * The {@link DigitalOutputChannelState}.
@@ -37,8 +38,9 @@ class DigitalOutputChannelState extends BaseChannelState<OutputChannelConfig> {
     public DigitalOutputChannelState(BaseGpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
         super(handler, channel, "output", OutputChannelConfig.class);
 
-        output = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, config.getPin(),
+        output = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, handler.getPin(config.getPin()),
                 channel.getUID().getId(), config.getInitialState());
+        output.addListener((GpioPinListenerDigital) event -> updateChannel());
         updateChannel();
     }
 

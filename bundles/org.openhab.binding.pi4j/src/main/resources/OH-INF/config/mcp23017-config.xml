@@ -8,7 +8,25 @@
 	<config-description uri="channel-type:pi4j:mcp23017_input_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
-			<description>The pin number on the PCF8574 device</description>
+			<description>The pin number on the MCP23017 device</description>
+			<options>
+				<option value="0">GPIO A0</option>
+				<option value="1">GPIO A1</option>
+				<option value="2">GPIO A2</option>
+				<option value="3">GPIO A3</option>
+				<option value="4">GPIO A4</option>
+				<option value="5">GPIO A5</option>
+				<option value="6">GPIO A6</option>
+				<option value="7">GPIO A7</option>
+				<option value="8">GPIO B0</option>
+				<option value="9">GPIO B1</option>
+				<option value="10">GPIO B2</option>
+				<option value="11">GPIO B3</option>
+				<option value="12">GPIO B4</option>
+				<option value="13">GPIO B5</option>
+				<option value="14">GPIO B6</option>
+				<option value="15">GPIO B7</option>
+			</options>
 		</parameter>
 		<parameter name="pullMode" type="text" required="true">
 			<label>Pull-Up Mode</label>
@@ -29,7 +47,25 @@
 	<config-description uri="channel-type:pi4j:mcp23017_output_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
-			<description>The pin number on the PCF8574 device</description>
+			<description>The pin number on the MCP23017 device</description>
+			<options>
+				<option value="0">GPIO A0</option>
+				<option value="1">GPIO A1</option>
+				<option value="2">GPIO A2</option>
+				<option value="3">GPIO A3</option>
+				<option value="4">GPIO A4</option>
+				<option value="5">GPIO A5</option>
+				<option value="6">GPIO A6</option>
+				<option value="7">GPIO A7</option>
+				<option value="8">GPIO B0</option>
+				<option value="9">GPIO B1</option>
+				<option value="10">GPIO B2</option>
+				<option value="11">GPIO B3</option>
+				<option value="12">GPIO B4</option>
+				<option value="13">GPIO B5</option>
+				<option value="14">GPIO B6</option>
+				<option value="15">GPIO B7</option>
+			</options>
 		</parameter>
 		<parameter name="initialState" type="text" required="true">
 			<label>Default State</label>

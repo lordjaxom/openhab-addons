@@ -18,9 +18,10 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.channel.ChannelState;
-import org.openhab.binding.pi4j.internal.config.I2CGpioProviderConfig;
+import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
@@ -78,7 +79,9 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
         handlerState.handleCommand(channelUID, command);
     }
 
-    protected abstract GpioProvider newGpioProvider(int busNumber, int address)
+    public abstract Pin getPin(int index);
+
+    protected abstract GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException;
 
     private abstract class HandlerState {
@@ -116,12 +119,12 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
         }
 
         private GpioProvider newGpioProvider() throws ThingStatusException {
-            var config = getConfigAs(I2CGpioProviderConfig.class);
+            var config = getConfigAs(GpioProviderConfig.class);
             // TODO: validate
 
             try {
                 logger.debug("Initializing {} provider with config {}", name, config);
-                return BaseGpioProviderHandler.this.newGpioProvider(config.getBusNumber(), config.getAddress());
+                return BaseGpioProviderHandler.this.newGpioProvider(config);
             } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
                 throw new ThingStatusException(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                         "I2C device not accessible: " + e.getMessage(), e);
