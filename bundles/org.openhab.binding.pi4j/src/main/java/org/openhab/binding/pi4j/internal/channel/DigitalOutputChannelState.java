@@ -17,7 +17,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.handler.BaseGpioProviderHandler;
+import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
@@ -33,7 +33,7 @@ class DigitalOutputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalOutput output;
 
-    public DigitalOutputChannelState(BaseGpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
+    public DigitalOutputChannelState(GpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
         super(handler, channel, "output");
 
         output = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, handler.getPin(config.getPin()),
