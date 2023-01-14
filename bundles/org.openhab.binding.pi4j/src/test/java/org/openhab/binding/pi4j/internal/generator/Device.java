@@ -82,7 +82,6 @@ public class Device {
         return pins;
     }
 
-    @NonNullByDefault
     public enum Type {
         I2C("I²C") {
             @Override
