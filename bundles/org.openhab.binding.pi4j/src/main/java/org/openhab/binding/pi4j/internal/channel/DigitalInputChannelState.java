@@ -16,8 +16,6 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.OpenClosedType;
 import org.openhab.core.thing.Channel;
-import org.openhab.core.types.Command;
-import org.openhab.core.types.RefreshType;
 
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
@@ -46,13 +44,6 @@ class DigitalInputChannelState extends BaseChannelState {
     @Override
     public void dispose() {
         GpioFactory.getInstance().unprovisionPin(gpioPin);
-    }
-
-    @Override
-    public void handleCommand(Command command) {
-        if (command instanceof RefreshType) {
-            updateChannel();
-        }
     }
 
     @Override

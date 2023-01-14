@@ -17,7 +17,6 @@ import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
-import org.openhab.core.types.RefreshType;
 
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -50,11 +49,10 @@ class DigitalOutputChannelState extends BaseChannelState {
 
     @Override
     public void handleCommand(Command command) {
-        if (command instanceof RefreshType) {
-            updateChannel();
-        } else if (command instanceof OnOffType) {
+        if (command instanceof OnOffType) {
             updateOutput((OnOffType) command);
         }
+        super.handleCommand(command);
     }
 
     @Override

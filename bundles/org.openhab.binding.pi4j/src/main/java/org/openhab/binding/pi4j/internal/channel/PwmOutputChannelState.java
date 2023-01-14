@@ -17,7 +17,6 @@ import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
-import org.openhab.core.types.RefreshType;
 
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinPwmOutput;
@@ -47,12 +46,10 @@ public class PwmOutputChannelState extends BaseChannelState {
 
     @Override
     public void handleCommand(Command command) {
-        if (command instanceof RefreshType) {
-            updateChannel();
-        }
         if (command instanceof DecimalType) {
             updateOutput((DecimalType) command);
         }
+        super.handleCommand(command);
     }
 
     @Override
