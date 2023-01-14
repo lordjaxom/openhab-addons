@@ -90,9 +90,12 @@ public abstract class BaseChannelState {
 
     public void setUpdateStateListener(BiConsumer<ChannelUID, State> updateStateListener) {
         this.updateStateListener = updateStateListener;
+        updateChannel();
     }
 
     public abstract void dispose();
 
     public abstract void handleCommand(Command command);
+
+    protected abstract void updateChannel();
 }

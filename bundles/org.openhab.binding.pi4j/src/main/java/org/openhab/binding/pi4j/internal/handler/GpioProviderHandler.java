@@ -59,7 +59,7 @@ public class GpioProviderHandler extends BaseThingHandler {
         try {
             handlerState.initialize();
         } catch (ThingStatusException e) {
-            logger.error("{}", e.getMessage(), e); // TODO
+            logger.error("{}", e.getMessage(), e.getCause());
             updateStatus(e.getStatus(), e.getStatusDetail(), e.getMessage());
         }
     }
@@ -77,6 +77,7 @@ public class GpioProviderHandler extends BaseThingHandler {
     @Override
     protected void updateState(ChannelUID channelUID, State state) {
         logger.debug("Updating channel {} to {}", channelUID, state);
+        super.updateState(channelUID, state);
     }
 
     private abstract class HandlerState {
