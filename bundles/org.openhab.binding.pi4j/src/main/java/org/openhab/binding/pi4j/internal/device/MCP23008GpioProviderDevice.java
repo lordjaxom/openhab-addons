@@ -17,19 +17,19 @@ import java.io.IOException;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 
-import com.pi4j.gpio.extension.pcf.PCF8574GpioProvider;
-import com.pi4j.gpio.extension.pcf.PCF8574Pin;
+import com.pi4j.gpio.extension.mcp.MCP23008GpioProvider;
+import com.pi4j.gpio.extension.mcp.MCP23008Pin;
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.i2c.I2CFactory;
 
 /**
- * The {@link PCF8574GpioProviderDevice}.
+ * The {@link MCP23008GpioProviderDevice}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public class PCF8574GpioProviderDevice implements GpioProviderDevice {
+public class MCP23008GpioProviderDevice implements GpioProviderDevice {
 
     @Override
     public String getName() {
@@ -38,12 +38,12 @@ public class PCF8574GpioProviderDevice implements GpioProviderDevice {
 
     @Override
     public Pin getPin(int index) {
-        return PCF8574Pin.ALL[index];
+        return MCP23008Pin.ALL[index];
     }
 
     @Override
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new PCF8574GpioProvider(config.getBusNumber(), config.getAddress());
+        return new MCP23008GpioProvider(config.getBusNumber(), config.getAddress());
     }
 }

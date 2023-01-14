@@ -4,7 +4,6 @@
 	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
 	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0
 		https://openhab.org/schemas/config-description-1.0.0.xsd">
-
 	<config-description uri="channel-type:pi4j:pcf8574_input_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
@@ -21,12 +20,11 @@
 			</options>
 		</parameter>
 		<parameter name="invert" type="boolean">
-			<label>Invert Input</label>
+			<label>Invert State</label>
 			<description>Invert the value of the input pin</description>
 			<default>false</default>
 		</parameter>
 	</config-description>
-
 	<config-description uri="channel-type:pi4j:pcf8574_output_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
@@ -46,18 +44,17 @@
 			<label>Default State</label>
 			<description>The pin's initial state (ON, OFF)</description>
 			<options>
-				<option value="OFF">OFF</option>
-				<option value="ON">ON</option>
+				<option value="LOW">low</option>
+				<option value="HIGH">high</option>
 			</options>
-			<default>OFF</default>
+			<default>LOW</default>
 		</parameter>
 		<parameter name="invert" type="boolean">
-			<label>Invert Output</label>
+			<label>Invert State</label>
 			<description>Invert the value of the output pin</description>
 			<default>false</default>
 		</parameter>
 	</config-description>
-
 	<config-description uri="thing-type:pi4j:pcf8574_config">
 		<parameter name="address" type="text" required="true">
 			<label>I²C Device Address</label>
@@ -79,5 +76,4 @@
 			<default>1</default>
 		</parameter>
 	</config-description>
-
 </config-description:config-descriptions>
