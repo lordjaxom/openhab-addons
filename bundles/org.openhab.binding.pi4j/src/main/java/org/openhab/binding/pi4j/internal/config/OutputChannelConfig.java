@@ -30,8 +30,8 @@ public class OutputChannelConfig {
     String initialState = "";
     boolean invert = false;
 
-    public Pin getPin() {
-        return PCF8574Pin.ALL[pin];
+    public int getPin() {
+        return pin;
     }
 
     public PinState getInitialState() {

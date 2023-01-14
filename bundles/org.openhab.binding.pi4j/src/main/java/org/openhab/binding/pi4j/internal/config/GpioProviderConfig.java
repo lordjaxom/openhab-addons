@@ -15,12 +15,12 @@ package org.openhab.binding.pi4j.internal.config;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 /**
- * The {@link I2CGpioProviderConfig} class contains fields mapping thing configuration parameters.
+ * The {@link GpioProviderConfig} class contains fields mapping thing configuration parameters.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public class I2CGpioProviderConfig {
+public class GpioProviderConfig {
 
     String address = "";
     int busNumber = 0;

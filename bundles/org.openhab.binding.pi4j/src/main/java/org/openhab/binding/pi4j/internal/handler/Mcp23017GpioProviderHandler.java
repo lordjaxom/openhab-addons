@@ -14,7 +14,10 @@ package org.openhab.binding.pi4j.internal.handler;
 
 import java.io.IOException;
 
+import com.pi4j.gpio.extension.mcp.MCP23017Pin;
+import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.core.thing.Thing;
 
 import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
@@ -34,8 +37,13 @@ public class Mcp23017GpioProviderHandler extends BaseGpioProviderHandler {
     }
 
     @Override
-    protected GpioProvider newGpioProvider(int busNumber, int address)
+    public Pin getPin(int index) {
+        return MCP23017Pin.ALL[index];
+    }
+
+    @Override
+    protected GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new MCP23017GpioProvider(busNumber, address);
+        return new MCP23017GpioProvider(config.getBusNumber(), config.getAddress());
     }
 }
