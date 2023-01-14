@@ -19,6 +19,11 @@
         <item-type>Switch</item-type>
         <label>Output</label>
         <description>An output pin for the {{ device.name }} {{ device.type.name }} device</description>
+{%- elif channel.type == "analog_input" %}
+        <item-type>Number</item-type>
+        <label>Input</label>
+        <description>An input pin for the {{ device.name }} {{ device.type.name }} device</description>
+        <state readOnly="true"/>
 {%- endif %}
         <config-description-ref uri="channel-type:pi4j:{{ channel.name }}_channel"/>
     </channel-type>
