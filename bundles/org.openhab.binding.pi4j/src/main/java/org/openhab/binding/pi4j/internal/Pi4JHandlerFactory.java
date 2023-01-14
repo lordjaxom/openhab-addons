@@ -18,9 +18,12 @@ import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.openhab.binding.pi4j.internal.device.MCP23008GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.device.MCP23017GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.MCP23008GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.ADS1115GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.MCP3424GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.device.PCF8574GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.ADS1015GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
@@ -40,10 +43,19 @@ import org.osgi.service.component.annotations.Component;
 public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
     private static final ThingTypeUID THING_TYPE_MCP23017 = new ThingTypeUID(BINDING_ID, "mcp23017");
     private static final ThingTypeUID THING_TYPE_MCP23008 = new ThingTypeUID(BINDING_ID, "mcp23008");
+    private static final ThingTypeUID THING_TYPE_ADS1115 = new ThingTypeUID(BINDING_ID, "ads1115");
+    private static final ThingTypeUID THING_TYPE_MCP3424 = new ThingTypeUID(BINDING_ID, "mcp3424");
     private static final ThingTypeUID THING_TYPE_PCF8574 = new ThingTypeUID(BINDING_ID, "pcf8574");
+    private static final ThingTypeUID THING_TYPE_ADS1015 = new ThingTypeUID(BINDING_ID, "ads1015");
 
-    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_MCP23017, THING_TYPE_MCP23008,
-            THING_TYPE_PCF8574);
+    private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(
+        THING_TYPE_MCP23017,
+        THING_TYPE_MCP23008,
+        THING_TYPE_ADS1115,
+        THING_TYPE_MCP3424,
+        THING_TYPE_PCF8574,
+        THING_TYPE_ADS1015
+    );
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -59,8 +71,17 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
         if (THING_TYPE_MCP23008.equals(thingTypeUID)) {
             return new GpioProviderHandler(thing, new MCP23008GpioProviderDevice());
         }
+        if (THING_TYPE_ADS1115.equals(thingTypeUID)) {
+            return new GpioProviderHandler(thing, new ADS1115GpioProviderDevice());
+        }
+        if (THING_TYPE_MCP3424.equals(thingTypeUID)) {
+            return new GpioProviderHandler(thing, new MCP3424GpioProviderDevice());
+        }
         if (THING_TYPE_PCF8574.equals(thingTypeUID)) {
             return new GpioProviderHandler(thing, new PCF8574GpioProviderDevice());
+        }
+        if (THING_TYPE_ADS1015.equals(thingTypeUID)) {
+            return new GpioProviderHandler(thing, new ADS1015GpioProviderDevice());
         }
         return null;
     }

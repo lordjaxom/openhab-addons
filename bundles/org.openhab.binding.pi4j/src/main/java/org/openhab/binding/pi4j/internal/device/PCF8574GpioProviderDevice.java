@@ -33,7 +33,7 @@ public class PCF8574GpioProviderDevice implements GpioProviderDevice {
 
     @Override
     public String getName() {
-        return "MCP23017";
+        return "PCF8574";
     }
 
     @Override
