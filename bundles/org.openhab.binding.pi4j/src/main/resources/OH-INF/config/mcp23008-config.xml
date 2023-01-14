@@ -4,7 +4,7 @@
 	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
 	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0
 		https://openhab.org/schemas/config-description-1.0.0.xsd">
-	<config-description uri="channel-type:pi4j:mcp23008_input_channel">
+	<config-description uri="channel-type:pi4j:mcp23008_digital_input_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
 			<description>The pin number on the MCP23008 device</description>
@@ -30,11 +30,11 @@
 		</parameter>
 		<parameter name="invert" type="boolean">
 			<label>Invert State</label>
-			<description>Invert the value of the input pin</description>
+			<description>Invert the value of the input pin before updating channel</description>
 			<default>false</default>
 		</parameter>
 	</config-description>
-	<config-description uri="channel-type:pi4j:mcp23008_output_channel">
+	<config-description uri="channel-type:pi4j:mcp23008_digital_output_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
 			<description>The pin number on the MCP23008 device</description>
@@ -60,7 +60,7 @@
 		</parameter>
 		<parameter name="invert" type="boolean">
 			<label>Invert State</label>
-			<description>Invert the value of the output pin</description>
+			<description>Invert the value of the received command before updating pin</description>
 			<default>false</default>
 		</parameter>
 	</config-description>

@@ -24,8 +24,4 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 public class Pi4JBindingConstants {
 
     public static final String BINDING_ID = "pi4j";
-
-    // List of all Channel ids
-    public static final String CHANNEL_PCF8574_INPUT = "pcf8574_input";
-    public static final String CHANNEL_PCF8574_OUTPUT = "pcf8574_output";
 }

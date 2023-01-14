@@ -14,10 +14,10 @@ package org.openhab.binding.pi4j.internal.generator;
 
 import static org.openhab.binding.pi4j.internal.generator.Pi4JGenerator.findSupportedPinModes;
 import static org.openhab.binding.pi4j.internal.generator.Pi4JGenerator.findSupportedPullResistances;
-import static org.openhab.binding.pi4j.internal.generator.Pi4JGenerator.typeId;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,7 +43,8 @@ public class DeviceBindingsBuilder {
     }
 
     private static Map<String, ?> buildChannel(Device device, PinMode pinMode) {
-        return Map.of("type", typeId(pinMode), "name", device.getId() + "_" + typeId(pinMode), "pins",
+        var channelType = pinMode.name().toLowerCase(Locale.ROOT);
+        return Map.of("type", channelType, "name", device.getId() + "_" + channelType, "pins",
                 buildChannelPins(device, pinMode), "pullModes", buildChannelPullModes(device, pinMode));
     }
 
