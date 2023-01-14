@@ -58,7 +58,8 @@ public class AnalogOutputChannelState extends BaseChannelState {
         }
     }
 
-    private void updateChannel() {
+    @Override
+    protected void updateChannel() {
         updateStateListener.accept(channelUID, new DecimalType(gpioPin.getValue()));
     }
 
