@@ -32,20 +32,20 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 @NonNullByDefault
 class DigitalOutputChannelState extends BaseChannelState {
 
-    private final GpioPinDigitalOutput output;
+    private final GpioPinDigitalOutput gpioPin;
 
     public DigitalOutputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider gpioProvider) {
-        super(handler, channel, "output");
+        super(handler, channel);
 
-        output = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, handler.getPin(config.getPin()),
+        gpioPin = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, handler.getPin(config.getPin()),
                 channel.getUID().getId(), config.getInitialState().orElseThrow());
-        output.addListener((GpioPinListenerDigital) event -> updateChannel());
+        gpioPin.addListener((GpioPinListenerDigital) event -> updateChannel());
         updateChannel();
     }
 
     @Override
     public void dispose() {
-        GpioFactory.getInstance().unprovisionPin(output);
+        GpioFactory.getInstance().unprovisionPin(gpioPin);
     }
 
     @Override
@@ -58,11 +58,11 @@ class DigitalOutputChannelState extends BaseChannelState {
     }
 
     private void updateChannel() {
-        var state = (config.isInvert() ^ output.isHigh()) ? OnOffType.ON : OnOffType.OFF;
+        var state = (config.isInvert() ^ gpioPin.isHigh()) ? OnOffType.ON : OnOffType.OFF;
         updateStateListener.accept(channelUID, state);
     }
 
     private void updateOutput(OnOffType value) {
-        output.setState(config.isInvert() ^ value == OnOffType.ON);
+        gpioPin.setState(config.isInvert() ^ value == OnOffType.ON);
     }
 }

@@ -10,12 +10,12 @@
     </thing-type>
 {%- for channel in channels %}
     <channel-type id="{{ channel.name }}">
-{%- if channel.type == "input" %}
+{%- if channel.type == "digital_input" %}
         <item-type>Contact</item-type>
         <label>Input</label>
         <description>An input pin for the {{ device.name }} {{ device.type.name }} device</description>
         <state readOnly="true"/>
-{%- elif channel.type == "output" %}
+{%- elif channel.type == "digital_output" %}
         <item-type>Switch</item-type>
         <label>Output</label>
         <description>An output pin for the {{ device.name }} {{ device.type.name }} device</description>

@@ -108,9 +108,9 @@ public class Pi4JGenerator {
     static String typeId(PinMode pinMode) {
         switch (pinMode) {
             case DIGITAL_INPUT:
-                return "input";
+                return "digital_input";
             case DIGITAL_OUTPUT:
-                return "output";
+                return "digital_output";
             default:
                 throw new UnsupportedOperationException("Unsupported pin mode " + pinMode);
         }

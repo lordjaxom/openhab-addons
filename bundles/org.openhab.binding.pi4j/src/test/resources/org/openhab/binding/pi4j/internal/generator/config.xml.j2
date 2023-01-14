@@ -27,7 +27,7 @@
 			<default>OFF</default>
 		</parameter>
 {%- endif %}
-{%- if channel.type == "output" %}
+{%- if channel.type == "digital_output" %}
 		<parameter name="initialState" type="text" required="true">
 			<label>Default State</label>
 			<description>The pin's initial state (ON, OFF)</description>
@@ -38,14 +38,18 @@
 			<default>LOW</default>
 		</parameter>
 {%- endif %}
-{%- if channel.type == "input" or channel.type == "output" %}
+{%- if channel.type == "digital_input" or channel.type == "digital_output" %}
 		<parameter name="invert" type="boolean">
 			<label>Invert State</label>
-			<description>Invert the value of the {{ channel.type }} pin</description>
+{%- if channel.type == "digital_input" %}
+			<description>Invert the value of the input pin before updating channel</description>
+{%- elif channel.type == "digital_output" %}
+			<description>Invert the value of the received command before updating pin</description>
+{%- endif %}
 			<default>false</default>
 		</parameter>
-	</config-description>
 {%- endif %}
+	</config-description>
 {%- endfor %}
 	<config-description uri="thing-type:pi4j:{{ device.id }}_config">
 		<parameter name="address" type="text" required="true">
