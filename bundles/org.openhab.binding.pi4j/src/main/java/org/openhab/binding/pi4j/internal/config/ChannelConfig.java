@@ -53,9 +53,7 @@ public class ChannelConfig {
 
     @Override
     public String toString() {
-        return "{pin=" + pin +
-                (pullMode != null ? ", pullMode=" + pullMode.name() : "") +
-                (initialState != null ? ", initialState=" + initialState.name() : "") +
-                ", invert=" + invert + "}";
+        return "{pin=" + pin + (pullMode != null ? ", pullMode=" + pullMode.name() : "")
+                + (initialState != null ? ", initialState=" + initialState.name() : "") + ", invert=" + invert + "}";
     }
 }

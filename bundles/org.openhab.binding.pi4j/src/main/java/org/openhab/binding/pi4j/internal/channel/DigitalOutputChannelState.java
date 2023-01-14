@@ -12,16 +12,17 @@
  */
 package org.openhab.binding.pi4j.internal.channel;
 
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.GpioProvider;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
+import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
+
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.GpioProvider;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 /**
  * The {@link DigitalOutputChannelState}.
@@ -33,7 +34,7 @@ class DigitalOutputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalOutput output;
 
-    public DigitalOutputChannelState(GpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
+    public DigitalOutputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider gpioProvider) {
         super(handler, channel, "output");
 
         output = GpioFactory.getInstance().provisionDigitalOutputPin(gpioProvider, handler.getPin(config.getPin()),
@@ -58,7 +59,7 @@ class DigitalOutputChannelState extends BaseChannelState {
 
     private void updateChannel() {
         var state = (config.isInvert() ^ output.isHigh()) ? OnOffType.ON : OnOffType.OFF;
-        handler.updateChannel(channelUID, state);
+        updateStateListener.accept(channelUID, state);
     }
 
     private void updateOutput(OnOffType value) {

@@ -102,10 +102,11 @@ public class GpioProviderHandler extends BaseThingHandler {
 
             logger.debug("Initializing thing {}", thing.getUID());
 
-            var gpioProvider = newGpioProvider();
+            var provider = newGpioProvider();
             var channelStates = thing.getChannels().stream()
-                    .map(channel -> BaseChannelState.newInstance(GpioProviderHandler.this, channel, gpioProvider))
-                    .filter(Optional::isPresent).map(Optional::get)
+                    .map(channel -> BaseChannelState.newInstance(device, channel, provider)).filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .peek(channelState -> channelState.setUpdateStateListener(GpioProviderHandler.this::updateState))
                     .collect(Collectors.toUnmodifiableMap(BaseChannelState::getUID, Function.identity()));
 
             updateStatus(ThingStatus.ONLINE);

@@ -22,8 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.openhab.core.config.core.ConfigParser;
 
 /**
- * The {@link GpioProviderConfigTest}.
- *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
