@@ -13,7 +13,7 @@
 package org.openhab.binding.pi4j.internal.channel;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
+import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.OpenClosedType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
@@ -34,10 +34,10 @@ class DigitalInputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalInput input;
 
-    DigitalInputChannelState(GpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
+    DigitalInputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider provider) {
         super(handler, channel, "input");
 
-        input = GpioFactory.getInstance().provisionDigitalInputPin(gpioProvider, handler.getPin(config.getPin()),
+        input = GpioFactory.getInstance().provisionDigitalInputPin(provider, handler.getPin(config.getPin()),
                 channel.getUID().getId(), config.getPullMode().orElse(null));
         input.addListener((GpioPinListenerDigital) event -> updateChannel());
         updateChannel();
@@ -58,6 +58,6 @@ class DigitalInputChannelState extends BaseChannelState {
     private void updateChannel() {
         logger.debug("Processing input update for config {}, high {}", config, input.isHigh());
         var state = (config.isInvert() ^ input.isHigh()) ? OpenClosedType.OPEN : OpenClosedType.CLOSED;
-        handler.updateChannel(channelUID, state);
+        updateStateListener.accept(channelUID, state);
     }
 }
