@@ -19,8 +19,9 @@ import java.util.Set;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 {%- for device in devices %}
-import org.openhab.binding.pi4j.internal.handler.{{ device.javaId }}GpioProviderHandler;
+import org.openhab.binding.pi4j.internal.device.{{ device.javaId }}GpioProviderDevice;
 {%- endfor %}
+import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
@@ -58,7 +59,7 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
 {%- for device in devices %}
         if (THING_TYPE_{{ device.javaId }}.equals(thingTypeUID)) {
-            return new {{ device.javaId }}GpioProviderHandler(thing);
+            return new GpioProviderHandler(thing, new {{ device.javaId }}GpioProviderDevice());
         }
 {%- endfor %}
         return null;
