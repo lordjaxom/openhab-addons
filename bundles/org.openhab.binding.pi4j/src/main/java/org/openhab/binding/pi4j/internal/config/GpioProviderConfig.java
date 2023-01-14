@@ -35,6 +35,6 @@ public class GpioProviderConfig {
 
     @Override
     public String toString() {
-        return "{" + "address='" + address + '\'' + ", busNumber=" + busNumber + '}';
+        return "{address='" + address + "', busNumber=" + busNumber + "}";
     }
 }

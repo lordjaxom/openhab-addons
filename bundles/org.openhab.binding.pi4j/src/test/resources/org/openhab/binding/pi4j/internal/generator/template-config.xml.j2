@@ -32,10 +32,10 @@
 			<label>Default State</label>
 			<description>The pin's initial state (ON, OFF)</description>
 			<options>
-				<option value="OFF">off</option>
-				<option value="ON">on</option>
+				<option value="LOW">low</option>
+				<option value="HIGH">high</option>
 			</options>
-			<default>OFF</default>
+			<default>LOW</default>
 		</parameter>
 {%- endif %}
 {%- if channel.type == "input" or channel.type == "output" %}

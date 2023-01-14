@@ -15,27 +15,36 @@ package org.openhab.binding.pi4j.internal.config;
 import java.util.Optional;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 
 import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
 
 /**
- * The {@link InputChannelConfig} class contains fields mapping thing configuration parameters.
+ * The {@link ChannelConfig} class contains fields mapping thing configuration parameters.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public class InputChannelConfig {
+public class ChannelConfig {
 
     int pin = 0;
-    String pullMode = "";
+    @Nullable
+    PinPullResistance pullMode;
+    @Nullable
+    PinState initialState;
     boolean invert = false;
 
     public int getPin() {
         return pin;
     }
 
-    public Optional<PinPullResistance> getPinPullResistance() {
-        return Optional.ofNullable(!pullMode.isEmpty() ? PinPullResistance.valueOf(pullMode) : null);
+    public Optional<PinPullResistance> getPullMode() {
+        return Optional.ofNullable(pullMode);
+    }
+
+    public Optional<PinState> getInitialState() {
+        return Optional.ofNullable(initialState);
     }
 
     public boolean isInvert() {
@@ -44,6 +53,9 @@ public class InputChannelConfig {
 
     @Override
     public String toString() {
-        return "{" + "pin=" + pin + ", pullMode='" + pullMode + '\'' + ", invert=" + invert + '}';
+        return "{pin=" + pin +
+                (pullMode != null ? ", pullMode=" + pullMode.name() : "") +
+                (initialState != null ? ", initialState=" + initialState.name() : "") +
+                ", invert=" + invert + "}";
     }
 }

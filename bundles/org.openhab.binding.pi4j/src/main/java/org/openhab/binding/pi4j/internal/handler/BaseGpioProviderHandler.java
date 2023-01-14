@@ -19,7 +19,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.channel.ChannelState;
+import org.openhab.binding.pi4j.internal.channel.BaseChannelState;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
@@ -109,9 +109,9 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
 
             var gpioProvider = newGpioProvider();
             var channelStates = thing.getChannels().stream()
-                    .map(channel -> ChannelState.newInstance(BaseGpioProviderHandler.this, channel, gpioProvider))
+                    .map(channel -> BaseChannelState.newInstance(BaseGpioProviderHandler.this, channel, gpioProvider))
                     .filter(Optional::isPresent).map(Optional::get)
-                    .collect(Collectors.toUnmodifiableMap(ChannelState::getUID, Function.identity()));
+                    .collect(Collectors.toUnmodifiableMap(BaseChannelState::getUID, Function.identity()));
 
             updateStatus(ThingStatus.ONLINE);
 
@@ -120,8 +120,6 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
 
         private GpioProvider newGpioProvider() throws ThingStatusException {
             var config = getConfigAs(GpioProviderConfig.class);
-            // TODO: validate
-
             try {
                 logger.debug("Initializing {} provider with config {}", name, config);
                 return BaseGpioProviderHandler.this.newGpioProvider(config);
@@ -134,9 +132,9 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
 
     private class OnlineHandlerState extends HandlerState {
 
-        private final Map<ChannelUID, ChannelState> channelStates;
+        private final Map<ChannelUID, BaseChannelState> channelStates;
 
-        public OnlineHandlerState(Map<ChannelUID, ChannelState> channelStates) {
+        public OnlineHandlerState(Map<ChannelUID, BaseChannelState> channelStates) {
             this.channelStates = channelStates;
         }
 
@@ -144,7 +142,7 @@ public abstract class BaseGpioProviderHandler extends BaseThingHandler {
         void dispose() {
             logger.debug("Disposing thing {}", thing.getUID());
 
-            channelStates.values().forEach(ChannelState::dispose);
+            channelStates.values().forEach(BaseChannelState::dispose);
 
             handlerState = new UnknownHandlerState();
         }
