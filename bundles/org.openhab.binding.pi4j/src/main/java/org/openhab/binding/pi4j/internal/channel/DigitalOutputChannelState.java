@@ -57,7 +57,8 @@ class DigitalOutputChannelState extends BaseChannelState {
         }
     }
 
-    private void updateChannel() {
+    @Override
+    protected void updateChannel() {
         var state = (config.isInvert() ^ gpioPin.isHigh()) ? OnOffType.ON : OnOffType.OFF;
         updateStateListener.accept(channelUID, state);
     }

@@ -55,7 +55,8 @@ class DigitalInputChannelState extends BaseChannelState {
         }
     }
 
-    private void updateChannel() {
+    @Override
+    protected void updateChannel() {
         var state = (config.isInvert() ^ gpioPin.isHigh()) ? OpenClosedType.OPEN : OpenClosedType.CLOSED;
         updateStateListener.accept(channelUID, state);
     }
