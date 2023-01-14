@@ -42,7 +42,8 @@ import com.pi4j.io.gpio.PinPullResistance;
 @NonNullByDefault
 public class Pi4JGenerator {
 
-    private static final Set<PinMode> SUPPORTED_PIN_MODES = Set.of(PinMode.DIGITAL_INPUT, PinMode.DIGITAL_OUTPUT, PinMode.ANALOG_INPUT);
+    private static final Set<PinMode> SUPPORTED_PIN_MODES = Set.of(PinMode.DIGITAL_INPUT, PinMode.DIGITAL_OUTPUT,
+            PinMode.ANALOG_INPUT);
 
     private static final Jinjava jinjava = new Jinjava();
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <thing:thing-descriptions bindingId="pi4j"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
-    xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
-    <thing-type id="ads1115" extensible="ads1115_analog_input">
-        <label>ADS1115</label>
-        <description>Thing for ADS1115 I²C port expander</description>
-        <config-description-ref uri="thing-type:pi4j:ads1115_config"/>
-    </thing-type>
-    <channel-type id="ads1115_analog_input">
-        <item-type>Number</item-type>
-        <label>Input</label>
-        <description>An input pin for the ADS1115 I²C device</description>
-        <state readOnly="true"/>
-        <config-description-ref uri="channel-type:pi4j:ads1115_analog_input_channel"/>
-    </channel-type>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+	<thing-type id="ads1115" extensible="ads1115_analog_input">
+		<label>ADS1115</label>
+		<description>Thing for ADS1115 I²C port expander</description>
+		<config-description-ref uri="thing-type:pi4j:ads1115_config"/>
+	</thing-type>
+	<channel-type id="ads1115_analog_input">
+		<item-type>Number</item-type>
+		<label>Input</label>
+		<description>An input pin for the ADS1115 I²C device</description>
+		<state readOnly="true"/>
+		<config-description-ref uri="channel-type:pi4j:ads1115_analog_input_channel"/>
+	</channel-type>
 </thing:thing-descriptions>
