@@ -13,8 +13,7 @@
 package org.openhab.binding.pi4j.internal.channel;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.config.ChannelConfig;
-import org.openhab.binding.pi4j.internal.handler.BaseGpioProviderHandler;
+import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.library.types.OpenClosedType;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
@@ -35,7 +34,7 @@ class DigitalInputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalInput input;
 
-    DigitalInputChannelState(BaseGpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
+    DigitalInputChannelState(GpioProviderHandler handler, Channel channel, GpioProvider gpioProvider) {
         super(handler, channel, "input");
 
         input = GpioFactory.getInstance().provisionDigitalInputPin(gpioProvider, handler.getPin(config.getPin()),

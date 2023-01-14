@@ -19,8 +19,9 @@ import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.openhab.binding.pi4j.internal.handler.Mcp23017GpioProviderHandler;
-import org.openhab.binding.pi4j.internal.handler.Pcf8574GpioProviderHandler;
+import org.openhab.binding.pi4j.internal.device.MCP23017GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.PCF8574GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
@@ -49,10 +50,10 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
     protected @Nullable ThingHandler createHandler(Thing thing) {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
         if (THING_TYPE_PCF8574.equals(thingTypeUID)) {
-            return new Pcf8574GpioProviderHandler(thing);
+            return new GpioProviderHandler(thing, new PCF8574GpioProviderDevice());
         }
         if (THING_TYPE_MCP23017.equals(thingTypeUID)) {
-            return new Mcp23017GpioProviderHandler(thing);
+            return new GpioProviderHandler(thing, new MCP23017GpioProviderDevice());
         }
         return null;
     }

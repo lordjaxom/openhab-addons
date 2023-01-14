@@ -18,7 +18,7 @@ import com.pi4j.io.gpio.GpioProvider;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.Pi4JBindingConstants;
 import org.openhab.binding.pi4j.internal.config.ChannelConfig;
-import org.openhab.binding.pi4j.internal.handler.BaseGpioProviderHandler;
+import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.types.Command;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 @NonNullByDefault
 public abstract class BaseChannelState {
 
-    public static Optional<BaseChannelState> newInstance(BaseGpioProviderHandler handler, Channel channel,
+    public static Optional<BaseChannelState> newInstance(GpioProviderHandler handler, Channel channel,
             GpioProvider gpioProvider) {
         var channelTypeUID = channel.getChannelTypeUID();
         if (channelTypeUID == null) {
@@ -53,12 +53,12 @@ public abstract class BaseChannelState {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected final BaseGpioProviderHandler handler;
+    protected final GpioProviderHandler handler;
     protected final ChannelUID channelUID;
     protected final String type;
     protected final ChannelConfig config;
 
-    public BaseChannelState(BaseGpioProviderHandler handler, Channel channel, String type) {
+    public BaseChannelState(GpioProviderHandler handler, Channel channel, String type) {
         this.handler = handler;
         this.channelUID = channel.getUID();
         this.type = type;
