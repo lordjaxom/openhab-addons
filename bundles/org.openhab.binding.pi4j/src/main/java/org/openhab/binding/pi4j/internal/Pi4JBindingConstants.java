@@ -13,7 +13,6 @@
 package org.openhab.binding.pi4j.internal;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.core.thing.ThingTypeUID;
 
 /**
  * The {@link Pi4JBindingConstants} class defines common constants, which are
@@ -24,11 +23,7 @@ import org.openhab.core.thing.ThingTypeUID;
 @NonNullByDefault
 public class Pi4JBindingConstants {
 
-    private static final String BINDING_ID = "pi4j";
-
-    // List of all Thing Type UIDs
-    public static final ThingTypeUID THING_TYPE_PCF8574 = new ThingTypeUID(BINDING_ID, "pcf8574");
-    public static final ThingTypeUID THING_TYPE_MCP23017 = new ThingTypeUID(BINDING_ID, "mcp23017");
+    public static final String BINDING_ID = "pi4j";
 
     // List of all Channel ids
     public static final String CHANNEL_PCF8574_INPUT = "pcf8574_input";
