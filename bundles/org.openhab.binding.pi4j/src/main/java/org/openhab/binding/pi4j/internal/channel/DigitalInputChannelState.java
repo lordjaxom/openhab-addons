@@ -32,20 +32,20 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 @NonNullByDefault
 class DigitalInputChannelState extends BaseChannelState {
 
-    private final GpioPinDigitalInput input;
+    private final GpioPinDigitalInput gpioPin;
 
     DigitalInputChannelState(GpioProviderDevice handler, Channel channel, GpioProvider provider) {
-        super(handler, channel, "input");
+        super(handler, channel);
 
-        input = GpioFactory.getInstance().provisionDigitalInputPin(provider, handler.getPin(config.getPin()),
+        gpioPin = GpioFactory.getInstance().provisionDigitalInputPin(provider, handler.getPin(config.getPin()),
                 channel.getUID().getId(), config.getPullMode().orElse(null));
-        input.addListener((GpioPinListenerDigital) event -> updateChannel());
+        gpioPin.addListener((GpioPinListenerDigital) event -> updateChannel());
         updateChannel();
     }
 
     @Override
     public void dispose() {
-        GpioFactory.getInstance().unprovisionPin(input);
+        GpioFactory.getInstance().unprovisionPin(gpioPin);
     }
 
     @Override
@@ -56,8 +56,8 @@ class DigitalInputChannelState extends BaseChannelState {
     }
 
     private void updateChannel() {
-        logger.debug("Processing input update for config {}, high {}", config, input.isHigh());
-        var state = (config.isInvert() ^ input.isHigh()) ? OpenClosedType.OPEN : OpenClosedType.CLOSED;
+        logger.debug("Processing input update for config {}, high {}", config, gpioPin.isHigh());
+        var state = (config.isInvert() ^ gpioPin.isHigh()) ? OpenClosedType.OPEN : OpenClosedType.CLOSED;
         updateStateListener.accept(channelUID, state);
     }
 }
