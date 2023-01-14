@@ -14,14 +14,14 @@ package org.openhab.binding.pi4j.internal.handler;
 
 import java.io.IOException;
 
-import com.pi4j.gpio.extension.mcp.MCP23017Pin;
-import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.core.thing.Thing;
 
 import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
+import com.pi4j.gpio.extension.mcp.MCP23017Pin;
 import com.pi4j.io.gpio.GpioProvider;
+import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.i2c.I2CFactory;
 
 /**

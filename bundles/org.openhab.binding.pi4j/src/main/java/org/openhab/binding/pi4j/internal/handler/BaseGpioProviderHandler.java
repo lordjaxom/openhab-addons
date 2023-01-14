@@ -18,7 +18,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.channel.ChannelState;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
@@ -33,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.pi4j.io.gpio.GpioProvider;
+import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.i2c.I2CFactory;
 
 /**
