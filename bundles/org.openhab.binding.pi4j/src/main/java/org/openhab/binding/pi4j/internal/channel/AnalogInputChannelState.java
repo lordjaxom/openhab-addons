@@ -4,6 +4,7 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinAnalogInput;
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.event.GpioPinListenerAnalog;
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.OpenClosedType;
@@ -11,6 +12,7 @@ import org.openhab.core.thing.Channel;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 
+@NonNullByDefault
 public class AnalogInputChannelState extends BaseChannelState {
 
     private final GpioPinAnalogInput gpioPin;
