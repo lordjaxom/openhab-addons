@@ -56,7 +56,6 @@ class DigitalInputChannelState extends BaseChannelState {
     }
 
     private void updateChannel() {
-        logger.debug("Processing input update for config {}, high {}", config, gpioPin.isHigh());
         var state = (config.isInvert() ^ gpioPin.isHigh()) ? OpenClosedType.OPEN : OpenClosedType.CLOSED;
         updateStateListener.accept(channelUID, state);
     }

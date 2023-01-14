@@ -54,11 +54,6 @@ public class GpioProviderHandler extends BaseThingHandler {
         this.device = device;
     }
 
-    public void updateChannel(ChannelUID channelUID, State state) {
-        logger.debug("Updating channel {} to {}", channelUID, state);
-        updateState(channelUID, state);
-    }
-
     @Override
     public void initialize() {
         try {
@@ -77,6 +72,11 @@ public class GpioProviderHandler extends BaseThingHandler {
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         handlerState.handleCommand(channelUID, command);
+    }
+
+    @Override
+    protected void updateState(ChannelUID channelUID, State state) {
+        logger.debug("Updating channel {} to {}", channelUID, state);
     }
 
     private abstract class HandlerState {
