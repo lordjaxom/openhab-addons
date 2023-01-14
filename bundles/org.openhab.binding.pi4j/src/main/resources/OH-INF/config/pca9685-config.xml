@@ -4,21 +4,36 @@
 	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
 	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0
 		https://openhab.org/schemas/config-description-1.0.0.xsd">
-	<config-description uri="channel-type:pi4j:mcp4725_analog_output_channel">
+	<config-description uri="channel-type:pi4j:pca9685_pwm_output_channel">
 		<parameter name="pin" type="integer" required="true">
 			<label>Pin Number</label>
-			<description>The pin number on the MCP4725 device</description>
+			<description>The pin number on the PCA9685 device</description>
 			<options>
-				<option value="0">ANALOG OUTPUT</option>
+				<option value="0">PWM 0</option>
+				<option value="1">PWM 1</option>
+				<option value="2">PWM 2</option>
+				<option value="3">PWM 3</option>
+				<option value="4">PWM 4</option>
+				<option value="5">PWM 5</option>
+				<option value="6">PWM 6</option>
+				<option value="7">PWM 7</option>
+				<option value="8">PWM 8</option>
+				<option value="9">PWM 9</option>
+				<option value="10">PWM 10</option>
+				<option value="11">PWM 11</option>
+				<option value="12">PWM 12</option>
+				<option value="13">PWM 13</option>
+				<option value="14">PWM 14</option>
+				<option value="15">PWM 15</option>
 			</options>
 		</parameter>
-		<parameter name="defaultValue" type="decimal" required="true">
+		<parameter name="defaultValue" type="integer" required="true">
 			<label>Default Value</label>
 			<description>The pin's initial value</description>
 			<default>0</default>
 		</parameter>
 	</config-description>
-	<config-description uri="thing-type:pi4j:mcp4725_config">
+	<config-description uri="thing-type:pi4j:pca9685_config">
 		<parameter name="address" type="text" required="true">
 			<label>I²C Device Address</label>
 			<description>I²C device address in hexadecimal notation</description>

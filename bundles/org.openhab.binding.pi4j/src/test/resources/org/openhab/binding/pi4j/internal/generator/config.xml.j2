@@ -38,11 +38,11 @@
 			<default>LOW</default>
 		</parameter>
 {%- endif %}
-{%- if channel.type == "analog_output" %}
-        <parameter name="defaultValue" type="decimal" required="true">
+{%- if channel.type == "analog_output" or channel.type == "pwm_output" %}
+        <parameter name="defaultValue" type="{{ "decimal" if channel.type == "analog_output" else "integer" }}" required="true">
             <label>Default Value</label>
             <description>The pin's initial value</description>
-            <default>0.0</default>
+            <default>0</default>
         </parameter>
 {%- endif %}
 {%- if channel.type == "digital_input" or channel.type == "digital_output" %}

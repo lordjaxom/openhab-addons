@@ -5,7 +5,7 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 	<thing-type id="mcp23008" extensible="mcp23008_digital_input,mcp23008_digital_output">
 		<label>MCP23008</label>
-		<description>Thing for MCP23008 I²C port expander</description>
+		<description>Thing for MCP23008 I²C device</description>
 		<config-description-ref uri="thing-type:pi4j:mcp23008_config"/>
 	</thing-type>
 	<channel-type id="mcp23008_digital_input">
