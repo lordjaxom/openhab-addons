@@ -10,30 +10,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.openhab.binding.pi4j.internal.handler;
+package org.openhab.binding.pi4j.internal.device;
 
 import java.io.IOException;
 
-import {{ device.pinClassName }};
-import com.pi4j.io.gpio.Pin;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
-import org.openhab.core.thing.Thing;
 
 import {{ device.providerName }};
+import {{ device.pinClassName }};
 import com.pi4j.io.gpio.GpioProvider;
+import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.i2c.I2CFactory;
 
 /**
- * The {@link {{ device.javaId }}GpioProviderHandler}.
+ * The {@link MCP23017GpioProviderDevice}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public class {{ device.javaId }}GpioProviderHandler extends BaseGpioProviderHandler {
+public class {{ device.javaId }}GpioProviderDevice implements GpioProviderDevice {
 
-    public {{ device.javaId }}GpioProviderHandler(Thing thing) {
-        super(thing, "{{ device.name }}");
+    @Override
+    public String getName() {
+        return "MCP23017";
     }
 
     @Override
@@ -42,7 +42,7 @@ public class {{ device.javaId }}GpioProviderHandler extends BaseGpioProviderHand
     }
 
     @Override
-    protected GpioProvider newGpioProvider(GpioProviderConfig config)
+    public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
         return new {{ device.providerSimpleName }}(config.getBusNumber(), config.getAddress());
     }
