@@ -58,17 +58,17 @@ public class Pi4JGenerator {
 
     private static void generateDevice(Device device) {
         var bindings = DeviceBindingsBuilder.build(device);
-        generateFile("template-config.xml.j2", "src/main/resources/OH-INF/config/" + device.getId() + "-config.xml",
+        generateFile("config.xml.j2", "src/main/resources/OH-INF/config/" + device.getId() + "-config.xml",
                 bindings);
-        generateFile("template-thing.xml.j2", "src/main/resources/OH-INF/thing/" + device.getId() + "-thing.xml",
+        generateFile("thing.xml.j2", "src/main/resources/OH-INF/thing/" + device.getId() + "-thing.xml",
                 bindings);
-        generateFile("TemplateGpioProviderHandler.java.j2", "src/main/java/org/openhab/binding/pi4j/internal/handler/"
-                + device.getJavaId() + "GpioProviderHandler.java", bindings);
+        generateFile("GpioProviderDevice.java.j2", "src/main/java/org/openhab/binding/pi4j/internal/device/"
+                + device.getJavaId() + "GpioProviderDevice.java", bindings);
     }
 
     private static void generateBinding(List<Device> devices) {
         var bindings = Map.of("devices", devices);
-        generateFile("TemplatePi4JHandlerFactory.java.j2",
+        generateFile("Pi4JHandlerFactory.java.j2",
                 "src/main/java/org/openhab/binding/pi4j/internal/Pi4JHandlerFactory.java", bindings);
     }
 
@@ -129,7 +129,7 @@ public class Pi4JGenerator {
         if (!clazz.getName().endsWith("GpioProvider")) {
             throw new UnsupportedOperationException("Invalid GpioProvider class name: " + clazz.getName());
         }
-        return Device.Type.fromGpioProviderClass(clazz).map(type -> scanDevice(clazz, type));
+        return Device.Type.fromGpioProviderClass(clazz).map(type -> scanDevice(clazz, type)).filter(device -> findSupportedPinModes(device).findAny().isPresent());
     }
 
     private static Device scanDevice(Class<? extends GpioProvider> clazz, Device.Type type) {
