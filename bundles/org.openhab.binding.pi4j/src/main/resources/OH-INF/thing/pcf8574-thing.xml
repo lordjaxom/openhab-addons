@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <thing:thing-descriptions bindingId="pi4j"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
-    xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
-    <thing-type id="pcf8574" extensible="pcf8574_digital_input,pcf8574_digital_output">
-        <label>PCF8574</label>
-        <description>Thing for PCF8574 I²C port expander</description>
-        <config-description-ref uri="thing-type:pi4j:pcf8574_config"/>
-    </thing-type>
-    <channel-type id="pcf8574_digital_input">
-        <item-type>Contact</item-type>
-        <label>Input</label>
-        <description>An input pin for the PCF8574 I²C device</description>
-        <state readOnly="true"/>
-        <config-description-ref uri="channel-type:pi4j:pcf8574_digital_input_channel"/>
-    </channel-type>
-    <channel-type id="pcf8574_digital_output">
-        <item-type>Switch</item-type>
-        <label>Output</label>
-        <description>An output pin for the PCF8574 I²C device</description>
-        <config-description-ref uri="channel-type:pi4j:pcf8574_digital_output_channel"/>
-    </channel-type>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+	<thing-type id="pcf8574" extensible="pcf8574_digital_input,pcf8574_digital_output">
+		<label>PCF8574</label>
+		<description>Thing for PCF8574 I²C port expander</description>
+		<config-description-ref uri="thing-type:pi4j:pcf8574_config"/>
+	</thing-type>
+	<channel-type id="pcf8574_digital_input">
+		<item-type>Contact</item-type>
+		<label>Input</label>
+		<description>An input pin for the PCF8574 I²C device</description>
+		<state readOnly="true"/>
+		<config-description-ref uri="channel-type:pi4j:pcf8574_digital_input_channel"/>
+	</channel-type>
+	<channel-type id="pcf8574_digital_output">
+		<item-type>Switch</item-type>
+		<label>Output</label>
+		<description>An output pin for the PCF8574 I²C device</description>
+		<config-description-ref uri="channel-type:pi4j:pcf8574_digital_output_channel"/>
+	</channel-type>
 </thing:thing-descriptions>
