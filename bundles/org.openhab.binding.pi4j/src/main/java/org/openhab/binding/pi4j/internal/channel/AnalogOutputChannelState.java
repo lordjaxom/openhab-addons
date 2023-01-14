@@ -12,7 +12,6 @@
  */
 package org.openhab.binding.pi4j.internal.channel;
 
-import com.pi4j.io.gpio.GpioPinAnalogOutput;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
 import org.openhab.core.library.types.DecimalType;
@@ -21,7 +20,7 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinAnalogInput;
+import com.pi4j.io.gpio.GpioPinAnalogOutput;
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.event.GpioPinListenerAnalog;
 
@@ -54,9 +53,16 @@ public class AnalogOutputChannelState extends BaseChannelState {
         if (command instanceof RefreshType) {
             updateChannel();
         }
+        if (command instanceof DecimalType) {
+            updateOutput((DecimalType) command);
+        }
     }
 
     private void updateChannel() {
         updateStateListener.accept(channelUID, new DecimalType(gpioPin.getValue()));
+    }
+
+    private void updateOutput(DecimalType command) {
+        gpioPin.setValue(command.doubleValue());
     }
 }
