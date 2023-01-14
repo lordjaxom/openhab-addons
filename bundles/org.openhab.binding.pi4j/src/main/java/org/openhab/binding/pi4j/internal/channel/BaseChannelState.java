@@ -22,6 +22,7 @@ import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.type.ChannelTypeUID;
 import org.openhab.core.types.Command;
+import org.openhab.core.types.RefreshType;
 import org.openhab.core.types.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,9 +94,13 @@ public abstract class BaseChannelState {
         updateChannel();
     }
 
-    public abstract void dispose();
+    public void handleCommand(Command command) {
+        if (command instanceof RefreshType) {
+            updateChannel();
+        }
+    }
 
-    public abstract void handleCommand(Command command);
+    public abstract void dispose();
 
     protected abstract void updateChannel();
 }
