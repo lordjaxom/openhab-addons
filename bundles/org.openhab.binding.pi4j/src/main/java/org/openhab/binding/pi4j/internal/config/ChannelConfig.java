@@ -13,6 +13,7 @@
 package org.openhab.binding.pi4j.internal.config;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -33,6 +34,8 @@ public class ChannelConfig {
     PinPullResistance pullMode;
     @Nullable
     PinState initialState;
+    @Nullable
+    Double defaultValue;
     boolean invert = false;
 
     public int getPin() {
@@ -45,6 +48,10 @@ public class ChannelConfig {
 
     public Optional<PinState> getInitialState() {
         return Optional.ofNullable(initialState);
+    }
+
+    public OptionalDouble getDefaultValue() {
+        return defaultValue != null ? OptionalDouble.of(defaultValue) : OptionalDouble.empty();
     }
 
     public boolean isInvert() {
