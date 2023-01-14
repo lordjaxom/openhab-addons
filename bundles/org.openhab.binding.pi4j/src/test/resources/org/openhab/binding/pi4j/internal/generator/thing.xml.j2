@@ -5,7 +5,7 @@
     xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
     <thing-type id="{{ device.id }}" extensible="{{ channels | join(',', attribute="name") }}">
         <label>{{ device.name }}</label>
-        <description>Thing for {{ device.name }} {{ device.type.name }} port expander</description>
+        <description>Thing for {{ device.name }} {{ device.type.name }} device</description>
         <config-description-ref uri="thing-type:pi4j:{{ device.id }}_config"/>
     </thing-type>
 {%- for channel in channels %}
@@ -24,7 +24,7 @@
         <label>Input</label>
         <description>An input pin for the {{ device.name }} {{ device.type.name }} device</description>
         <state readOnly="true"/>
-{%- elif channel.type == "analog_output" %}
+{%- elif channel.type == "analog_output" or channel.type == "pwm_output" %}
         <item-type>Number</item-type>
         <label>Output</label>
         <description>An output pin for the {{ device.name }} {{ device.type.name }} device</description>
