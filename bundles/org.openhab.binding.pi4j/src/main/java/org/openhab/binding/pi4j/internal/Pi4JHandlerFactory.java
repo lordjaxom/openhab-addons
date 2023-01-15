@@ -26,6 +26,7 @@ import org.openhab.binding.pi4j.internal.device.MCP3424GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.device.MCP4725GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.device.PCA9685GpioProviderDevice;
 import org.openhab.binding.pi4j.internal.device.PCF8574GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.device.RASPIGpioProviderDevice;
 import org.openhab.binding.pi4j.internal.handler.GpioProviderHandler;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
@@ -51,10 +52,11 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
     private static final ThingTypeUID THING_TYPE_MCP3424 = new ThingTypeUID(BINDING_ID, "mcp3424");
     private static final ThingTypeUID THING_TYPE_PCF8574 = new ThingTypeUID(BINDING_ID, "pcf8574");
     private static final ThingTypeUID THING_TYPE_ADS1015 = new ThingTypeUID(BINDING_ID, "ads1015");
+    private static final ThingTypeUID THING_TYPE_RASPI = new ThingTypeUID(BINDING_ID, "raspi");
 
     private static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Set.of(THING_TYPE_MCP4725, THING_TYPE_MCP23017,
             THING_TYPE_MCP23008, THING_TYPE_ADS1115, THING_TYPE_PCA9685, THING_TYPE_MCP3424, THING_TYPE_PCF8574,
-            THING_TYPE_ADS1015);
+            THING_TYPE_ADS1015, THING_TYPE_RASPI);
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -87,6 +89,9 @@ public class Pi4JHandlerFactory extends BaseThingHandlerFactory {
         }
         if (THING_TYPE_ADS1015.equals(thingTypeUID)) {
             return new GpioProviderHandler(thing, new ADS1015GpioProviderDevice());
+        }
+        if (THING_TYPE_RASPI.equals(thingTypeUID)) {
+            return new GpioProviderHandler(thing, new RASPIGpioProviderDevice());
         }
         return null;
     }

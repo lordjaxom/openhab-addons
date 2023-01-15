@@ -44,6 +44,6 @@ public class ADS1115GpioProviderDevice implements GpioProviderDevice {
     @Override
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new ADS1115GpioProvider(config.getBusNumber(), config.getAddress());
+        return new ADS1115GpioProvider(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
     }
 }

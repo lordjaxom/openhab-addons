@@ -45,7 +45,7 @@ public class {{ device.javaId }}GpioProviderDevice implements GpioProviderDevice
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
 {%- if device.type.name() == "I2C" %}
-        return new {{ device.providerSimpleName }}(config.getBusNumber(), config.getAddress());
+        return new {{ device.providerSimpleName }}(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
 {%- elif device.type.name() == "RASPI" %}
         return new {{ device.providerSimpleName }}();
 {%- endif %}

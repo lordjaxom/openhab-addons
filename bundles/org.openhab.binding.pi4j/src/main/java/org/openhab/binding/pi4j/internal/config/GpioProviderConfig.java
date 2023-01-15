@@ -12,7 +12,15 @@
  */
 package org.openhab.binding.pi4j.internal.config;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * The {@link GpioProviderConfig} class contains fields mapping thing configuration parameters.
@@ -22,19 +30,24 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 @NonNullByDefault
 public class GpioProviderConfig {
 
-    String address = "";
-    int busNumber = 0;
+    @Nullable
+    String address;
+    @Nullable
+    Integer busNumber;
 
-    public int getAddress() {
-        return Integer.parseInt(address, 16);
+    public OptionalInt getAddress() {
+        return Optional.ofNullable(address).stream().mapToInt(value -> Integer.parseInt(value, 16)).findFirst();
     }
 
-    public int getBusNumber() {
-        return busNumber;
+    public OptionalInt getBusNumber() {
+        return busNumber != null ? OptionalInt.of(Objects.requireNonNull(busNumber)) : OptionalInt.empty();
     }
 
     @Override
     public String toString() {
-        return "{address='" + address + "', busNumber=" + busNumber + "}";
+        return "{" + Stream
+                .of(Stream.ofNullable(address).map(value -> "address=" + value),
+                        getBusNumber().stream().mapToObj(value -> "busNumber=" + value))
+                .flatMap(Function.identity()).collect(Collectors.joining(", ")) + "}";
     }
 }

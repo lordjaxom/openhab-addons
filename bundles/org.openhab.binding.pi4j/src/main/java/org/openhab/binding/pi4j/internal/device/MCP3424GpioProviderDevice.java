@@ -44,6 +44,6 @@ public class MCP3424GpioProviderDevice implements GpioProviderDevice {
     @Override
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new MCP3424GpioProvider(config.getBusNumber(), config.getAddress());
+        return new MCP3424GpioProvider(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
     }
 }

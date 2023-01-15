@@ -17,33 +17,33 @@ import java.io.IOException;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 
-import com.pi4j.gpio.extension.mcp.MCP4725GpioProvider;
-import com.pi4j.gpio.extension.mcp.MCP4725Pin;
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.RaspiGpioProvider;
+import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.i2c.I2CFactory;
 
 /**
- * The {@link MCP4725GpioProviderDevice}.
+ * The {@link RASPIGpioProviderDevice}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public class MCP4725GpioProviderDevice implements GpioProviderDevice {
+public class RASPIGpioProviderDevice implements GpioProviderDevice {
 
     @Override
     public String getName() {
-        return "MCP4725";
+        return "RaspberryPi";
     }
 
     @Override
     public Pin getPin(int index) {
-        return MCP4725Pin.ALL[index];
+        return RaspiPin.allPins()[index];
     }
 
     @Override
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new MCP4725GpioProvider(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
+        return new RaspiGpioProvider();
     }
 }
