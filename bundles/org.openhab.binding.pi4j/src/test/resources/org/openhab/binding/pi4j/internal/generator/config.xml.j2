@@ -59,6 +59,7 @@
 	</config-description>
 {%- endfor %}
 	<config-description uri="thing-type:pi4j:{{ device.id }}_config">
+{%- if device.type.name() == "I2C" %}
 		<parameter name="address" type="text" required="true">
 			<label>I²C Device Address</label>
 			<description>I²C device address in hexadecimal notation</description>
@@ -78,5 +79,6 @@
 			</options>
 			<default>1</default>
 		</parameter>
+{%- endif %}
 	</config-description>
 </config-description:config-descriptions>

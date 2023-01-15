@@ -35,6 +35,8 @@ import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinMode;
 import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.RaspiGpioProvider;
+import com.pi4j.io.gpio.RaspiPin;
 
 /**
  * @author Sascha Volkenandt - Initial contribution
@@ -133,16 +135,15 @@ public class Pi4JGenerator {
     }
 
     private static Device scanDevice(Class<? extends GpioProvider> clazz, Device.Type type) {
-        var prefix = clazz.getName().substring(0, clazz.getName().length() - 12);
         var id = clazz.getSimpleName().substring(0, clazz.getSimpleName().length() - 12).toLowerCase(Locale.ROOT);
         var name = scanDeviceName(clazz);
-        var pinsField = findAllPinsField(prefix);
-        var pins = introspectField(pinsField, Pin[].class);
-        return new Device(clazz, type, id, name, pinsField, pins);
+        var pinsField = findAllPins(clazz);
+        return new Device(clazz, type, id, name, pinsField.pinClass, pinsField.pinsFieldName, pinsField.pins);
     }
 
     private static String scanDeviceName(Class<? extends GpioProvider> clazz) {
-        var description = introspectField(clazz, "DESCRIPTION", String.class);
+        var fieldName = clazz == RaspiGpioProvider.class ? "NAME" : "DESCRIPTION";
+        var description = introspectField(clazz, fieldName, String.class);
         if (description.endsWith(" GPIO Provider")) {
             return description.substring(0, description.length() - 14);
         }
@@ -160,12 +161,19 @@ public class Pi4JGenerator {
         }
     }
 
-    private static Field findAllPinsField(String prefix) {
-        var clazz = findClass(prefix + "Pin");
-        return Arrays.stream(clazz.getFields())
+    private static AllPins findAllPins(Class<? extends GpioProvider> clazz) {
+        var prefix = clazz.getName().substring(0, clazz.getName().length() - 12);
+        var pinClass = findClass(prefix + "Pin");
+
+        if (pinClass == RaspiPin.class) {
+            return new AllPins(pinClass, "allPins()", RaspiPin.allPins());
+        }
+
+        return Arrays.stream(pinClass.getFields())
                 .filter(field -> "ALL".equals(field.getName()) || "ALL_PINS".equals(field.getName())).findFirst()
+                .map(field -> new AllPins(pinClass, field.getName(), introspectField(field, Pin[].class)))
                 .orElseThrow(() -> new UnsupportedOperationException(
-                        "Neither ALL nor ALL_PINS in Pin class " + clazz.getSimpleName()));
+                        "Neither ALL nor ALL_PINS in Pin class " + pinClass.getSimpleName()));
     }
 
     private static <T> T introspectField(Class<?> clazz, String name, Class<T> resultClass) {
@@ -182,6 +190,19 @@ public class Pi4JGenerator {
         } catch (IllegalAccessException | ClassCastException e) {
             throw new UnsupportedOperationException(
                     "Invalid field " + field.getName() + " in class " + field.getDeclaringClass().getSimpleName());
+        }
+    }
+
+    private static class AllPins {
+
+        final Class<?> pinClass;
+        final String pinsFieldName;
+        final Pin[] pins;
+
+        AllPins(Class<?> pinClass, String pinsFieldName, Pin[] pins) {
+            this.pinClass = pinClass;
+            this.pinsFieldName = pinsFieldName;
+            this.pins = pins;
         }
     }
 }
