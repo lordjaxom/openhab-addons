@@ -44,6 +44,6 @@ public class PCA9685GpioProviderDevice implements GpioProviderDevice {
     @Override
     public GpioProvider newGpioProvider(GpioProviderConfig config)
             throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new PCA9685GpioProvider(config.getBusNumber(), config.getAddress());
+        return new PCA9685GpioProvider(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
     }
 }
