@@ -12,14 +12,14 @@
  */
 package org.openhab.binding.pi4j.internal.config;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.eclipse.jdt.annotation.Nullable;
-
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * The {@link ChannelConfig} class contains fields mapping thing configuration parameters.
@@ -51,7 +51,7 @@ public class ChannelConfig {
     }
 
     public OptionalDouble getDefaultValue() {
-        return defaultValue != null ? OptionalDouble.of(defaultValue) : OptionalDouble.empty();
+        return defaultValue != null ? OptionalDouble.of(Objects.requireNonNull(defaultValue)) : OptionalDouble.empty();
     }
 
     public boolean isInvert() {
@@ -60,7 +60,9 @@ public class ChannelConfig {
 
     @Override
     public String toString() {
-        return "{pin=" + pin + (pullMode != null ? ", pullMode=" + pullMode.name() : "")
-                + (initialState != null ? ", initialState=" + initialState.name() : "") + ", invert=" + invert + "}";
+        return "{pin=" + pin + getPullMode().map(value -> ", pullMode=" + value).orElse("") +
+                getInitialState().map(value -> ", initialState=" + value).orElse("") +
+                getDefaultValue().stream().mapToObj(value -> ", defaultValue=" + value).findFirst().orElse("") +
+                ", invert=" + invert + "}";
     }
 }

@@ -12,7 +12,6 @@
  */
 package org.openhab.binding.pi4j.internal.generator;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
@@ -21,6 +20,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 
 import com.pi4j.io.gpio.GpioProvider;
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.RaspiGpioProvider;
 import com.pi4j.io.i2c.I2CBus;
 
 /**
@@ -33,16 +33,18 @@ public class Device {
     private final Type type;
     private final String id;
     private final String name;
-    private final Field pinsField;
+    private final Class<?> pinClass;
+    private final String pinsFieldName;
     private final Pin[] pins;
 
-    public Device(Class<? extends GpioProvider> provider, Type type, String id, String name, Field pinsField,
-            Pin[] pins) {
+    public Device(Class<? extends GpioProvider> provider, Type type, String id, String name, Class<?> pinClass,
+            String pinsFieldName, Pin[] pins) {
         this.provider = provider;
         this.type = type;
         this.id = id;
         this.name = name;
-        this.pinsField = pinsField;
+        this.pinClass = pinClass;
+        this.pinsFieldName = pinsFieldName;
         this.pins = pins;
     }
 
@@ -71,11 +73,15 @@ public class Device {
     }
 
     public String getPinClassName() {
-        return pinsField.getDeclaringClass().getName();
+        return pinClass.getName();
+    }
+
+    public String getPinClassSimpleName() {
+        return pinClass.getSimpleName();
     }
 
     public String getPinsFieldName() {
-        return pinsField.getDeclaringClass().getSimpleName() + "." + pinsField.getName();
+        return pinsFieldName;
     }
 
     public Pin[] getPins() {
@@ -83,6 +89,14 @@ public class Device {
     }
 
     public enum Type {
+
+        RASPI("RaspberryPi") {
+            @Override
+            boolean isOfType(Class<? extends GpioProvider> clazz) {
+                return clazz == RaspiGpioProvider.class;
+            }
+        },
+
         I2C("I²C") {
             @Override
             boolean isOfType(Class<? extends GpioProvider> clazz) {
