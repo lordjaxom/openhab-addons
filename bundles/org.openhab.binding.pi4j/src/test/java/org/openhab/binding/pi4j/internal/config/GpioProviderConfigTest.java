@@ -31,7 +31,7 @@ class GpioProviderConfigTest {
     void parsesCorrectly() {
         var config = ConfigParser.configurationAs(Map.of("address", "24", "busNumber", 2), GpioProviderConfig.class);
         assertNotNull(config);
-        assertEquals(0x24, config.getAddress());
-        assertEquals(2, config.getBusNumber());
+        assertEquals(0x24, config.getAddress().orElseThrow());
+        assertEquals(2, config.getBusNumber().orElseThrow());
     }
 }
