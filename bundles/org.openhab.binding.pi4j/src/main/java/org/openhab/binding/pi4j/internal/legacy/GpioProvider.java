@@ -10,21 +10,24 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  */
-package org.openhab.binding.pi4j.internal.device;
+package org.openhab.binding.pi4j.internal.legacy;
+
+import java.util.concurrent.ScheduledExecutorService;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
-import org.openhab.binding.pi4j.internal.legacy.GpioProvider;
 
 /**
- * The {@link GpioProviderDevice}.
+ * The {@link GpioProvider}.
  *
  * @author Sascha Volkenandt - Initial contribution
  */
 @NonNullByDefault
-public interface GpioProviderDevice {
+public interface GpioProvider {
+    GpioPinDigitalInput provisionDigitalInputPin(int pin, String id);
 
-    String getName();
+    void unprovisionPin(GpioPinDigitalInput gpioPin);
 
-    GpioProvider newGpioProvider(GpioProviderConfig config);
+    void start(ScheduledExecutorService scheduler);
+
+    void stop();
 }

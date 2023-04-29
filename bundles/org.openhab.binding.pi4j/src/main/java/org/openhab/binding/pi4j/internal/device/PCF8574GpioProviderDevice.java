@@ -12,16 +12,17 @@
  */
 package org.openhab.binding.pi4j.internal.device;
 
-import java.io.IOException;
-
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
+import org.openhab.binding.pi4j.internal.legacy.GpioProvider;
+import org.openhab.binding.pi4j.internal.legacy.PCF8574GpioProvider;
 
-import com.pi4j.gpio.extension.pcf.PCF8574GpioProvider;
-import com.pi4j.gpio.extension.pcf.PCF8574Pin;
-import com.pi4j.io.gpio.GpioProvider;
-import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.i2c.I2CFactory;
+import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
+import com.pi4j.io.i2c.I2C;
+import com.pi4j.io.i2c.I2CConfig;
+import com.pi4j.io.i2c.I2CProvider;
+import com.pi4j.plugin.linuxfs.provider.i2c.LinuxFsI2CProvider;
 
 /**
  * The {@link PCF8574GpioProviderDevice}.
@@ -37,13 +38,13 @@ public class PCF8574GpioProviderDevice implements GpioProviderDevice {
     }
 
     @Override
-    public Pin getPin(int index) {
-        return PCF8574Pin.ALL[index];
-    }
-
-    @Override
-    public GpioProvider newGpioProvider(GpioProviderConfig config)
-            throws IOException, I2CFactory.UnsupportedBusNumberException {
-        return new PCF8574GpioProvider(config.getBusNumber().orElseThrow(), config.getAddress().orElseThrow());
+    public GpioProvider newGpioProvider(GpioProviderConfig config) {
+        Context pi4j = Pi4J.newContext();
+        I2CProvider i2cProvider = LinuxFsI2CProvider.newInstance();
+        I2CConfig i2cConfig = I2C.newConfigBuilder(pi4j).id(getName()) //
+                .bus(config.getBusNumber().orElseThrow()) //
+                .device(config.getAddress().orElseThrow()) //
+                .build();
+        return new PCF8574GpioProvider(i2cProvider.create(i2cConfig));
     }
 }

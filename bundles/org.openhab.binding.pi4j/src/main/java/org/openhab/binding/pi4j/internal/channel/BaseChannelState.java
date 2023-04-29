@@ -18,6 +18,7 @@ import java.util.function.BiConsumer;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.config.ChannelConfig;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.legacy.GpioProvider;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.type.ChannelTypeUID;
@@ -26,8 +27,6 @@ import org.openhab.core.types.RefreshType;
 import org.openhab.core.types.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.pi4j.io.gpio.GpioProvider;
 
 /**
  * The {@link BaseChannelState}.
@@ -51,18 +50,6 @@ public abstract class BaseChannelState {
             ChannelTypeUID channelTypeUID) {
         if (channelTypeUID.getId().endsWith("_digital_input")) {
             return new DigitalInputChannelState(device, channel, provider);
-        }
-        if (channelTypeUID.getId().endsWith("_digital_output")) {
-            return new DigitalOutputChannelState(device, channel, provider);
-        }
-        if (channelTypeUID.getId().endsWith("_analog_input")) {
-            return new AnalogInputChannelState(device, channel, provider);
-        }
-        if (channelTypeUID.getId().endsWith("_analog_output")) {
-            return new AnalogOutputChannelState(device, channel, provider);
-        }
-        if (channelTypeUID.getId().endsWith("_pwm_output")) {
-            return new PwmOutputChannelState(device, channel, provider);
         }
         throw new IllegalStateException("Unexpected value: " + channelTypeUID.getId());
     }

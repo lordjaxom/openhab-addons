@@ -13,7 +13,6 @@
 package org.openhab.binding.pi4j.internal.config;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,9 +20,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-
-import com.pi4j.io.gpio.PinPullResistance;
-import com.pi4j.io.gpio.PinState;
 
 /**
  * The {@link ChannelConfig} class contains fields mapping thing configuration parameters.
@@ -35,23 +31,11 @@ public class ChannelConfig {
 
     int pin = 0;
     @Nullable
-    PinPullResistance pullMode;
-    @Nullable
-    PinState initialState;
-    @Nullable
     Double defaultValue;
     boolean invert = false;
 
     public int getPin() {
         return pin;
-    }
-
-    public Optional<PinPullResistance> getPullMode() {
-        return Optional.ofNullable(pullMode);
-    }
-
-    public Optional<PinState> getInitialState() {
-        return Optional.ofNullable(initialState);
     }
 
     public OptionalDouble getDefaultValue() {
@@ -65,8 +49,7 @@ public class ChannelConfig {
     @Override
     public String toString() {
         return "{"
-                + Stream.of(Stream.of("pin=" + pin), getPullMode().map(value -> "pullMode=" + value).stream(),
-                        getInitialState().map(value -> "initialState=" + value).stream(),
+                + Stream.of(Stream.of("pin=" + pin),
                         getDefaultValue().stream().mapToObj(value -> "defaultValue=" + value),
                         Stream.of("invert=" + invert)).flatMap(Function.identity()).collect(Collectors.joining(", "))
                 + "}";
