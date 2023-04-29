@@ -12,7 +12,6 @@
  */
 package org.openhab.binding.pi4j.internal.handler;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,6 +21,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.channel.BaseChannelState;
 import org.openhab.binding.pi4j.internal.config.GpioProviderConfig;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.legacy.GpioProvider;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
@@ -31,9 +31,6 @@ import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.pi4j.io.gpio.GpioProvider;
-import com.pi4j.io.i2c.I2CFactory;
 
 /**
  * The {@link GpioProviderHandler}.
@@ -104,15 +101,17 @@ public class GpioProviderHandler extends BaseThingHandler {
             logger.debug("Initializing thing {}", thing.getUID());
 
             var provider = newGpioProvider();
-            var channelStates = thing.getChannels().stream()
-                    .map(channel -> BaseChannelState.newInstance(device, channel, provider)).filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .peek(channelState -> channelState.setUpdateStateListener(GpioProviderHandler.this::updateState))
+            var channelStates = thing.getChannels().stream() //
+                    .map(channel -> BaseChannelState.newInstance(device, channel, provider)) //
+                    .filter(Optional::isPresent) //
+                    .map(Optional::get) //
+                    .peek(channelState -> channelState.setUpdateStateListener(GpioProviderHandler.this::updateState)) //
                     .collect(Collectors.toUnmodifiableMap(BaseChannelState::getUID, Function.identity()));
+            provider.start(scheduler);
 
             updateStatus(ThingStatus.ONLINE);
 
-            handlerState = new OnlineHandlerState(channelStates);
+            handlerState = new OnlineHandlerState(provider, channelStates);
         }
 
         private GpioProvider newGpioProvider() throws ThingStatusException {
@@ -120,7 +119,7 @@ public class GpioProviderHandler extends BaseThingHandler {
             try {
                 logger.debug("Initializing {} provider with config {}", device.getName(), config);
                 return device.newGpioProvider(config);
-            } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
+            } catch (Exception e) {
                 throw new ThingStatusException(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                         "I2C device not accessible: " + e.getMessage(), e);
             }
@@ -129,9 +128,11 @@ public class GpioProviderHandler extends BaseThingHandler {
 
     private class OnlineHandlerState extends HandlerState {
 
+        private final GpioProvider provider;
         private final Map<ChannelUID, BaseChannelState> channelStates;
 
-        public OnlineHandlerState(Map<ChannelUID, BaseChannelState> channelStates) {
+        public OnlineHandlerState(GpioProvider provider, Map<ChannelUID, BaseChannelState> channelStates) {
+            this.provider = provider;
             this.channelStates = channelStates;
         }
 
@@ -139,6 +140,7 @@ public class GpioProviderHandler extends BaseThingHandler {
         void dispose() {
             logger.debug("Disposing thing {}", thing.getUID());
 
+            provider.stop();
             channelStates.values().forEach(BaseChannelState::dispose);
 
             handlerState = new UnknownHandlerState();

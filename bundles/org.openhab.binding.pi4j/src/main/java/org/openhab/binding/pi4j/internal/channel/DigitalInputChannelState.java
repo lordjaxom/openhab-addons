@@ -14,13 +14,10 @@ package org.openhab.binding.pi4j.internal.channel;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.pi4j.internal.device.GpioProviderDevice;
+import org.openhab.binding.pi4j.internal.legacy.GpioPinDigitalInput;
+import org.openhab.binding.pi4j.internal.legacy.GpioProvider;
 import org.openhab.core.library.types.OpenClosedType;
 import org.openhab.core.thing.Channel;
-
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalInput;
-import com.pi4j.io.gpio.GpioProvider;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 /**
  * The {@link DigitalInputChannelState}.
@@ -31,19 +28,20 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 class DigitalInputChannelState extends BaseChannelState {
 
     private final GpioPinDigitalInput gpioPin;
+    private final GpioProvider provider;
 
     DigitalInputChannelState(GpioProviderDevice device, Channel channel, GpioProvider provider) {
         super(device, channel);
+        this.provider = provider;
 
-        gpioPin = GpioFactory.getInstance().provisionDigitalInputPin(provider, device.getPin(config.getPin()),
-                channel.getUID().getId(), config.getPullMode().orElse(null));
-        gpioPin.addListener((GpioPinListenerDigital) event -> updateChannel());
+        gpioPin = provider.provisionDigitalInputPin(config.getPin(), channel.getUID().getId());
+        gpioPin.setListener(this::updateChannel);
         updateChannel();
     }
 
     @Override
     public void dispose() {
-        GpioFactory.getInstance().unprovisionPin(gpioPin);
+        provider.unprovisionPin(gpioPin);
     }
 
     @Override
