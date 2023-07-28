@@ -18,7 +18,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.pi4j.exception.Pi4JException;
 import com.pi4j.io.i2c.I2C;
 
 /**
@@ -28,6 +31,8 @@ import com.pi4j.io.i2c.I2C;
  */
 @NonNullByDefault
 public class PCF8574GpioProvider implements GpioProvider {
+
+    private final Logger logger = LoggerFactory.getLogger(PCF8574GpioProvider.class);
 
     private final I2C device;
     private final @Nullable GpioPinDigitalInput[] inputPins = new GpioPinDigitalInput[8];
@@ -53,7 +58,6 @@ public class PCF8574GpioProvider implements GpioProvider {
     @Override
     public synchronized void start(ScheduledExecutorService scheduler) {
         if (future == null) {
-            device.write(0xff);
             future = scheduler.scheduleWithFixedDelay(this::poll, 1000, 100, TimeUnit.MILLISECONDS);
         }
     }
@@ -67,12 +71,16 @@ public class PCF8574GpioProvider implements GpioProvider {
     }
 
     private void poll() {
-        byte data = device.readByte();
-        for (int i = 0; i < 8; ++i) {
-            if (inputPins[i] != null) {
-                boolean value = (data & (1 << i)) != 0;
-                inputPins[i].update(value);
+        try {
+            byte data = device.readByte();
+            for (int i = 0; i < 8; ++i) {
+                if (inputPins[i] != null) {
+                    boolean value = (data & (1 << i)) != 0;
+                    inputPins[i].update(value);
+                }
             }
+        } catch (Pi4JException e) {
+            logger.warn("Read error on PCF8574", e);
         }
     }
 }
