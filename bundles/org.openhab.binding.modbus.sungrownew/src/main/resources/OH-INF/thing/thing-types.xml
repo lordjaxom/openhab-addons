@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="modbus"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="sungrow-inverter-new">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="serial"/>
+			<bridge-type-ref id="tcp"/>
+		</supported-bridge-type-refs>
+
+		<label>Sungrow Inverter (New Firmware)</label>
+		<description>Sungrow inverter connected via Modbus.</description>
+		<category>Inverter</category>
+		<channel-groups>
+			<channel-group id="sgnew-overview" typeId="sgnew-overview"/>
+			<channel-group id="sgnew-mppt-information" typeId="sgnew-mppt-information"/>
+			<channel-group id="sgnew-battery-information" typeId="sgnew-battery-information"/>
+			<channel-group id="sgnew-grid-information" typeId="sgnew-grid-information"/>
+			<channel-group id="sgnew-load-information" typeId="sgnew-load-information"/>
+		</channel-groups>
+		<config-description-ref uri="thing-type:sungrow:inverter-new"/>
+	</thing-type>
+
+	<channel-group-type id="sgnew-overview">
+		<label>Overview</label>
+		<channels>
+			<channel id="sgnew-total-active-power" typeId="sgnew-total-active-power"/>
+			<channel id="sgnew-total-dc-power" typeId="sgnew-total-dc-power"/>
+			<channel id="sgnew-phase-a-voltage" typeId="sgnew-phase-a-voltage"/>
+			<channel id="sgnew-phase-b-voltage" typeId="sgnew-phase-b-voltage"/>
+			<channel id="sgnew-phase-c-voltage" typeId="sgnew-phase-c-voltage"/>
+			<channel id="sgnew-phase-a-current" typeId="sgnew-phase-a-current"/>
+			<channel id="sgnew-phase-b-current" typeId="sgnew-phase-b-current"/>
+			<channel id="sgnew-phase-c-current" typeId="sgnew-phase-c-current"/>
+			<channel id="sgnew-reactive-power" typeId="sgnew-reactive-power"/>
+			<channel id="sgnew-grid-frequency" typeId="sgnew-grid-frequency"/>
+			<channel id="sgnew-daily-pv-generation" typeId="sgnew-daily-pv-generation"/>
+			<channel id="sgnew-total-pv-generation" typeId="sgnew-total-pv-generation"/>
+			<channel id="sgnew-power-factor" typeId="sgnew-power-factor"/>
+			<channel id="sgnew-internal-temperature" typeId="sgnew-internal-temperature"/>
+			<channel id="sgnew-running-state" typeId="sgnew-running-state"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="sgnew-mppt-information">
+		<label>MPPT Information</label>
+		<channels>
+			<channel id="sgnew-mppt1-voltage" typeId="sgnew-mppt1-voltage"/>
+			<channel id="sgnew-mppt1-current" typeId="sgnew-mppt1-current"/>
+			<channel id="sgnew-mppt2-voltage" typeId="sgnew-mppt2-voltage"/>
+			<channel id="sgnew-mppt2-current" typeId="sgnew-mppt2-current"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="sgnew-battery-information">
+		<label>Battery Information</label>
+		<category>Battery</category>
+		<channels>
+			<channel id="sgnew-battery-voltage" typeId="sgnew-battery-voltage"/>
+			<channel id="sgnew-battery-current" typeId="sgnew-battery-current"/>
+			<channel id="sgnew-battery-power" typeId="sgnew-battery-power"/>
+			<channel id="sgnew-battery-level" typeId="sgnew-battery-level"/>
+			<channel id="sgnew-battery-healthy" typeId="sgnew-battery-healthy"/>
+			<channel id="sgnew-battery-temperature" typeId="sgnew-battery-temperature"/>
+			<channel id="sgnew-battery-capacity" typeId="sgnew-battery-capacity"/>
+			<channel id="sgnew-daily-charge-energy" typeId="sgnew-daily-charge-energy"/>
+			<channel id="sgnew-total-charge-energy" typeId="sgnew-total-charge-energy"/>
+			<channel id="sgnew-daily-battery-charge" typeId="sgnew-daily-battery-charge"/>
+			<channel id="sgnew-total-battery-charge" typeId="sgnew-total-battery-charge"/>
+			<channel id="sgnew-daily-battery-discharge-energy" typeId="sgnew-daily-battery-discharge-energy"/>
+			<channel id="sgnew-total-battery-discharge-energy" typeId="sgnew-total-battery-discharge-energy"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="sgnew-grid-information">
+		<label>Grid Information</label>
+		<channels>
+			<channel id="sgnew-daily-export-energy" typeId="sgnew-daily-export-energy"/>
+			<channel id="sgnew-total-export-energy" typeId="sgnew-total-export-energy"/>
+			<channel id="sgnew-daily-import-energy" typeId="sgnew-daily-import-energy"/>
+			<channel id="sgnew-total-import-energy" typeId="sgnew-total-import-energy"/>
+			<channel id="sgnew-daily-export-power-from-pv" typeId="sgnew-daily-export-power-from-pv"/>
+			<channel id="sgnew-total-export-energy-from-pv" typeId="sgnew-total-export-energy-from-pv"/>
+			<channel id="sgnew-export-power" typeId="sgnew-export-power"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="sgnew-load-information">
+		<label>Load Information</label>
+		<channels>
+			<channel id="sgnew-load-power" typeId="sgnew-load-power"/>
+			<channel id="sgnew-daily-direct-energy-consumption" typeId="sgnew-daily-direct-energy-consumption"/>
+			<channel id="sgnew-total-direct-energy-consumption" typeId="sgnew-total-direct-energy-consumption"/>
+			<channel id="sgnew-self-consumption-today" typeId="sgnew-self-consumption-today"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-type id="sgnew-running-state" advanced="true">
+		<item-type>Number</item-type>
+		<label>Running State</label>
+	</channel-type>
+	<channel-type id="sgnew-internal-temperature" advanced="true">
+		<item-type>Number:Temperature</item-type>
+		<label>Internal Temperature</label>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-mppt1-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>MPPT1 Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-mppt1-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>MPPT1 Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-mppt2-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>MPPT2 Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-mppt2-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>MPPT2 Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-dc-power">
+		<item-type>Number:Power</item-type>
+		<label>Total DC Power</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-a-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>Phase A Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-b-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>Phase B Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-c-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>Phase C Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-reactive-power" advanced="true">
+		<item-type>Number:Power</item-type>
+		<label>Reactive Power</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-power-factor" advanced="true">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Power Factor</label>
+		<category>Energy</category>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-grid-frequency" advanced="true">
+		<item-type>Number:Frequency</item-type>
+		<label>Grid Frequency</label>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Frequency</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="sgnew-daily-pv-generation">
+		<item-type>Number:Energy</item-type>
+		<label>Daily PV Generation</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-pv-generation">
+		<item-type>Number:Energy</item-type>
+		<label>Total PV Generation</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-export-power-from-pv">
+		<item-type>Number:Power</item-type>
+		<label>Daily Export Power from PV</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-export-energy-from-pv">
+		<item-type>Number:Energy</item-type>
+		<label>Total Export Energy from PV</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-load-power">
+		<item-type>Number:Power</item-type>
+		<label>Load Power</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-export-power">
+		<item-type>Number:Power</item-type>
+		<label>Export Power</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-battery-charge">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Battery Charge</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-battery-charge">
+		<item-type>Number:Energy</item-type>
+		<label>Total Battery Charge</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-direct-energy-consumption">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Direct Energy Consumption</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-direct-energy-consumption">
+		<item-type>Number:Energy</item-type>
+		<label>Total Direct Energy Consumption</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-voltage" advanced="true">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>Battery Voltage</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Voltage</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>Battery Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-power">
+		<item-type>Number:Power</item-type>
+		<label>Battery Power</label>
+		<category>Battery</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-level">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Battery Level</label>
+		<category>Battery</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-healthy">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Battery Healthy</label>
+		<category>Battery</category>
+		<state pattern="%.2f %%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Battery Temperature</label>
+		<category>Battery</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-battery-discharge-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Battery Discharge Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-battery-discharge-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Total Battery Discharge Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-self-consumption-today">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Self Consumption Today</label>
+		<state pattern="%.2f %%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-a-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>Phase A Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-b-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>Phase B Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-phase-c-current" advanced="true">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>Phase C Current</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Current</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-active-power">
+		<item-type>Number:Power</item-type>
+		<label>Total Active Power</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Power</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-import-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Import Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-import-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Total Import Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-battery-capacity">
+		<item-type>Number:Energy</item-type>
+		<label>Battery Capacity</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-daily-charge-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Charge Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-charge-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Total Charge Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="sgnew-daily-export-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Daily Export Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+	<channel-type id="sgnew-total-export-energy">
+		<item-type>Number:Energy</item-type>
+		<label>Total Export Energy</label>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state pattern="%.2f %unit%" readOnly="true"/>
+	</channel-type>
+</thing:thing-descriptions>
